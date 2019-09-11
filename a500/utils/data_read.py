@@ -1,21 +1,24 @@
 """
-  a500.utils.data_read 
-  ____________________
+  a301.utils.data_read 
+  ___________________
 
-  downloads a file named filename from the atsc500 downloads directory
+  downloads a file named filename from the atsc301 downloads directory
   and save it as a local file with the same name. 
 
   to run from the command line::
 
     python -m a500.utils.data_read photon_data.csv
 
-    
+    or
+
+    python -m a500.utils.data_read A20162092016216.L3m_8D_PAR_par_9km.nc --root https://oceandata.sci.gsfc.nasa.gov/cgi/getfile
+
   to run from a python script::
 
     from a500.utils.data_read import download
     download('photon_data.csv')
 
-  or::
+  or
 
     from a500.utils.data_read import download
     root="https://oceandata.sci.gsfc.nasa.gov/cgi/getfile"
@@ -27,21 +30,40 @@ import argparse
 import requests
 from pathlib import Path
 import shutil
+import a500
+import pandas as pd
+import pdb
 
 class NoDataException(Exception):
     pass
 
-def download(filename,root='https://clouds.eos.ubc.ca/~phil/courses/atsc301/downloads'):
+def read_soundings():
+    soundings_folder= a500.test_dir / Path('soundings')
+    sounding_files = list(soundings_folder.glob("*csv"))
+    sound_dict={}
+    for item in sounding_files:
+        sound_dict[item.stem]=pd.read_csv(item)
+    return sound_dict
+
+
+def download(filename,root='https://clouds.eos.ubc.ca/~phil/courses/atsc301/downloads',
+               dest_folder=None):
     """
     copy file filename from http://clouds.eos.ubc.ca/~phil/courses/atsc301/downloads to 
     the local directory.  If local file exists, report file size and quit.
 
-    
     Parameters
     ----------
 
     filename: string
       name of file to fetch from 
+
+    root: optional string 
+          to specifiy a different download url
+
+    dest_folder: optional string or Path object
+          to specifify a folder besides the current folder to put the files
+          will be created it it doesn't exist
 
     Returns
     -------
@@ -49,9 +71,23 @@ def download(filename,root='https://clouds.eos.ubc.ca/~phil/courses/atsc301/down
     Side effect: Creates a copy of that file in the local directory
     """
     url = '{}/{}'.format(root,filename)
+    url = url.replace('\\','/')
     print('trying {}'.format(url))
-    filepath = Path('./{}'.format(filename))
-    print('writing to: {}'.format(str(filepath)))
+    #
+    # use current directory if dest_dir not specified
+    #
+    if dest_folder is None:
+        dest_path=Path()
+    else:
+        dest_path=Path(dest_folder).resolve()
+        dest_path.mkdir(parents=True, exist_ok=True)
+    #
+    # filename may contain subfolders
+    #
+    filepath=Path(filename)
+    filename = filepath.name
+    filepath = dest_path / Path(filename)
+    print(f'writing to: {filepath}')
     if filepath.exists():
         the_size = filepath.stat().st_size
         print(('\n{} already exists\n'
@@ -62,9 +98,8 @@ def download(filename,root='https://clouds.eos.ubc.ca/~phil/courses/atsc301/down
     tempfile = str(filepath) + '_tmp'
     temppath = Path(tempfile)
     try:
-        with open(tempfile, 'wb') as localfile:
-            temppath=Path(tempfile)
-            print('writing temporary file {}'.format(temppath))
+        with open(temppath, 'wb') as localfile:
+            print(f'writing temporary file {temppath}')
             response = requests.get(url, stream=True)
             #
             # treat a 'Not Found' response differently, since you want to catch

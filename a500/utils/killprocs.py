@@ -23,7 +23,7 @@ def on_terminate(proc):
 
 def make_parser():
     linebreaks = argparse.RawTextHelpFormatter
-    descrip = textwrap.dedent(killjobs.__doc__)
+    descrip = textwrap.dedent(__doc__)
     parser = argparse.ArgumentParser(formatter_class=linebreaks,
                                      description=descrip)
     parser.add_argument('snip', type=str, help='string in processname')

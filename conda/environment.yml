@@ -14,5 +14,6 @@ dependencies:
   - jupytext
   - jupyter_contrib_nbextensions
   - git
+  - requests
 prefix: /Users/phil/a50037/envs/a500test
 
