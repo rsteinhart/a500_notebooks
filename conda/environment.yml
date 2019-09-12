@@ -1,4 +1,4 @@
-name: a500test
+name: a500testb
 channels:
   - conda-forge
   - defaults
@@ -17,5 +17,5 @@ dependencies:
   - requests
   - seaborn
   - numba
-prefix: /Users/phil/a50037/envs/a500test
+prefix: /Users/phil/a50037/envs/a500testb
 

@@ -1,6 +1,6 @@
 # %% [markdown]
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span><ul class="toc-item"><li><span><a href="#The-Dry-LES-dataset" data-toc-modified-id="The-Dry-LES-dataset-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>The Dry LES dataset</a></span><ul class="toc-item"><li><span><a href="#Intro-to-netcdf" data-toc-modified-id="Intro-to-netcdf-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>Intro to netcdf</a></span></li></ul></li><li><span><a href="#Intro-to-python-packages" data-toc-modified-id="Intro-to-python-packages-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Intro to python packages</a></span></li><li><span><a href="#Setting-up-the-environment" data-toc-modified-id="Setting-up-the-environment-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Setting up the environment</a></span></li><li><span><a href="#Intro-to-jupytext" data-toc-modified-id="Intro-to-jupytext-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Intro to jupytext</a></span></li><li><span><a href="#Now-download-the-data" data-toc-modified-id="Now-download-the-data-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Now download the data</a></span></li><li><span><a href="#Dumping-the-netcdf-metadata" data-toc-modified-id="Dumping-the-netcdf-metadata-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Dumping the netcdf metadata</a></span></li><li><span><a href="#Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)" data-toc-modified-id="Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Plot $\theta$ profile for every third timestep (i.e. every 30 minutes)</a></span></li><li><span><a href="#Color-contour-plot-of-one-level-for-realization-c1,-last-timestep" data-toc-modified-id="Color-contour-plot-of-one-level-for-realization-c1,-last-timestep-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Color contour plot of one level for realization c1, last timestep</a></span></li></ul></li><li><span><a href="#Assignment" data-toc-modified-id="Assignment-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Assignment</a></span></li></ul></div>
 
 # %%
 import sys
@@ -23,6 +23,8 @@ import numpy as np
 # See the function descriptions and tutorial at http://unidata.github.io/netcdf4-python/
 #
 # ## Intro to python packages
+#
+# Start with this general intro:  https://www.learnpython.org/en/Modules_and_Packages
 #
 # This notebook is part of this git repo: https://github.com/phaustin/a500_notebooks
 #
@@ -57,11 +59,38 @@ import numpy as np
 #    
 #        download case_60_10.nc: size is    499.3 Mbytes
 
+# %% [markdown]
+# ## Setting up the environment
+#
+# You should be able to create an environment called "a500test" by changing into the conda folder and doing:
+#
+# ```
+# conda env create -f environment.yml
+# conda activate a500test
+# ```
+#
+# as explained in class
+#
+
+# %% [markdown]
+# ## Intro to jupytext
+
+# %% [markdown]
+# Note that the two notebooks in https://github.com/phaustin/a500_notebooks/tree/master/notebooks both have
+# python versions in https://github.com/phaustin/a500_notebooks/tree/master/notebooks/python
+#
+# In class I'll explain how I use https://github.com/mwouts/jupytext  to pair every ipynb file with a py file that is easier to examine and maintain on github, and how jupyter notebooks can sync the pair of ipynb and py files using
+# [jupyter_notebook_config.py](https://github.com/phaustin/a500_notebooks/blob/master/conda/jupyter_notebook_config.py)
+#
+
+# %% [markdown]
+# ## Now download the data
+
 # %%
 from  a500.utils.data_read import download
 the_root="http://clouds.eos.ubc.ca/~phil/docs/atsc500/data/"
 the_file='case_60_10.nc'
-out=download(the_file,root=the_root)
+out=download(the_file,root=the_root,dest_folder=a500.data_dir)
 
 # %% [markdown]
 # ## Dumping the netcdf metadata
@@ -103,7 +132,7 @@ with Dataset(case_name,'r') as ncin:
     #
     # grab the group variables
     #
-    group = ncin.groups['c1']
+    group = ncin.groups[ensemble]
     temp=group.variables['TABS'][...]
     press=ncin.variables['press'][...]
     z=ncin.variables['z'][...]
@@ -114,7 +143,7 @@ for i in np.arange(0,temp.shape[0],3):
     theta = make_theta(mean_temp[i,:],press)
     ax.plot(theta,z)
 out=ax.set(xlabel=r'$\overline{\theta}$ (K)',ylabel='height (m)',
-       title='LES dry run for realization 1:  surface flux=60 $W\,m^{-2}$, $\Gamma$=10 K/km')
+       title=f'LES dry run for realization {ensemble}:  surface flux=60 $W\,m^{-2}$, $\Gamma$=10 K/km')
 ax.grid(True, which='both')
 
 
@@ -124,7 +153,7 @@ temp.shape
 # %% [markdown]
 # ## Color contour plot of one level for realization c1, last timestep
 #
-# 1. Find the index of the level closest to 400 meters
+# 1. Find the index of the level closest to 400 meters using searchsorted
 # 2. Retrieve the horizontal temperature field for this realization at the last timestep
 
 # %%
@@ -145,3 +174,32 @@ cb.set_label('temperature perturbation (K)',rotation=-90)
 
 # %% [markdown]
 # # Assignment
+
+# %% [markdown]
+# This routine from [tropical_boundary_layer.py](https://github.com/phaustin/a500_notebooks/blob/ddeaec7f1baaf6cd25a15ab3c2c436a677136c07/notebooks/python/tropical_boundary_layer.py#L74-L83) calculates the 2-d horizontal spatial mean and the perturbation for a 3-d field like temperature.
+#
+# ```
+# def do_reynolds(array3d):
+#     """
+#         do a spatial-mean reynolds average of a 3d field array3d
+#         needs dimensions arranged as (z,y,x)
+#         returns avg(z),perturb(z,y,x)
+#     """
+#     avg=array3d.mean(axis=2).mean(axis=1)
+#     perturb=array3d.T - avg
+#     perturb=perturb.T
+#     return avg,perturb
+# ```
+
+# %% [markdown]
+# In the cell below, write a new version that calculates the ensemble mean and the 3-d perturbation for a 3D field like TABS in the dry-les dataset.
+
+# %% [markdown]
+# a.) Using your version of do_reynolds, make a pcolormesh plot for the ensemble-averaged vertical temperature flux
+# at the 400 meter level for this ensemble
+
+# %% [markdown]
+# b.) Plot the horizontally averaged vertical temperature-flux vs. height for each of the 10 ensemble members as 10 lines, to show the variablity in the between individual ensemble members.
+#
+
+# %%
