@@ -15,5 +15,7 @@ dependencies:
   - jupyter_contrib_nbextensions
   - git
   - requests
+  - seaborn
+  - numba
 prefix: /Users/phil/a50037/envs/a500test
 

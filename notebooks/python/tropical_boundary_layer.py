@@ -109,7 +109,7 @@ with Dataset('tropical_subset.nc','r') as nc_in:
     wvel=nc_in.variables['W'][0,...]  #m/s
     qv=nc_in.variables['QV'][0,...]  #vapor g/kg
     ql=nc_in.variables['QN'][0,...]  #liquid  g/kg
-  
+
 
 # %% [markdown]
 # ## By default netCDF4 converts netcdf variables to masked arrays
@@ -125,7 +125,7 @@ type(ql), type(qv), type(wvel)
 
 # %%
 bins=np.linspace(0.05,1.5,20)
-out=plt.hist(ql.flat,bins=bins)
+out=plt.hist(ql.compressed(),bins=bins)
 plt.title('histogram of cloud lwc (g/kg)')
 
 # %% [markdown]
@@ -252,8 +252,8 @@ ql_800 = ql[zlev,:,:] == 0.
 T_flux_800 = T_flux[zlev,:,:] #W/m^2
 qv_flux_800 = qv_flux[zlev,:,:] #W/m^2
 fig,ax = plt.subplots(1,2,figsize=(16,8))
-out=ax[0].hist(T_flux_800.flat,bins=np.linspace(-60,60,50))
-out=ax[1].hist(qv_flux_800.flat,bins=np.linspace(-120,200,50))
+out=ax[0].hist(T_flux_800.compressed(),bins=np.linspace(-60,60,50))
+out=ax[1].hist(qv_flux_800.compressed(),bins=np.linspace(-120,200,50))
 ax[0].set(title='sensible heat flux at 800 m (W/m^2)')
 ax[1].set(title='latent heat flux at 800 m (W/m^2)')
 
@@ -269,8 +269,8 @@ qv_flux800=((wpert_800*qvpert_800)*rho_avg[zlev])*lv*g2kg #W/m^2
 print(T_flux800.mean())
 print(qv_flux800.mean())
 fig,ax=plt.subplots(1,2,figsize=(16,8))
-out=ax[0].hist(qv_flux800.flat,bins=np.linspace(-100,100,100))
-out=ax[1].hist(T_flux800.flat,bins=np.linspace(-100,100,100))
+out=ax[0].hist(qv_flux800.compressed(),bins=np.linspace(-100,100,100))
+out=ax[1].hist(T_flux800.compressed(),bins=np.linspace(-100,100,100))
 [item.set(ylabel='count') for item in ax]
 ax[0].set(xlabel='vapor flux (W/m^2) at 800 m')
 ax[1].set(xlabel='temperature flux (W/m^2) at 800 m')
@@ -282,7 +282,7 @@ ax[1].set(xlabel='temperature flux (W/m^2) at 800 m')
 
 # %%
 fig,ax=plt.subplots(1,1)
-ax.scatter(qv_flux800.flat,T_flux800.flat)
+ax.scatter(qv_flux800.compressed(),T_flux800.compressed())
 ax.set(xlabel=r'latent heat flux (W/m^2)',ylabel=r'sensible heat flux (W m^2)')
 
 # %% [markdown]
@@ -362,7 +362,7 @@ import seaborn as sns
 #  limit the range f the data to be plotted
 #
 hit=((qv_flux800 > -100) & (qv_flux800 < 100)) &( (T_flux800 > -50) & (T_flux800 < 50))
-g=sns.jointplot(x=qv_flux800[hit].flat,y=T_flux800[hit].flat,kind='kde',color='blue')
+g=sns.jointplot(x=qv_flux800[hit].compressed(),y=T_flux800[hit].compressed(),kind='kde',color='blue')
 ax=g.ax_joint
 ax.set(xlabel='vapor flux',ylabel='temperature flux')
 
@@ -409,6 +409,10 @@ ax.set(xlabel=r'$w^\prime\ (m/s)$',ylabel=r'$T^\prime\ (K)$')
 #
 
 # %%
+import numba
+from numba import jit
+
+# %%
 from a500.utils.hist_numba import hist2d
 print(help(hist2d))
 
@@ -422,8 +426,8 @@ from matplotlib.colors import Normalize
 
 wedges=np.linspace(-2,5,100)
 Tedges=np.linspace(-1,1,50)
-counts,row_centers,col_centers=hist2d(w_perturb.ravel(), 
-                                       temp_perturb.ravel(),wedges,Tedges)
+counts,row_centers,col_centers=hist2d(w_perturb.compressed(), 
+                                       temp_perturb.compressed(),wedges,Tedges)
 mask=np.isnan(counts)
 counts=np.ma.array(counts,mask=mask)
 fig,ax=plt.subplots(1,1,figsize=(8,6))

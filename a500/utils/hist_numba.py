@@ -1,9 +1,9 @@
-import numba
+from numba import jit
 import numpy as np
 
 # nopython=True means an error will be raised
 # if fast compilation is not possible.
-@numba.jit(nopython=True)
+@jit(nopython=True)
 def fill_counts(row_centers,col_centers,row_indices,col_indices):
     """
           given bincenters for each row and column, and row_indices and
