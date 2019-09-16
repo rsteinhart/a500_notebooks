@@ -1,4 +1,4 @@
-name: a500testb
+name: a500new
 channels:
   - conda-forge
   - defaults
@@ -12,10 +12,8 @@ dependencies:
   - zarr
   - xarray
   - jupytext
-  - jupyter_contrib_nbextensions
   - git
   - requests
   - seaborn
   - numba
-prefix: /Users/phil/a50037/envs/a500testb
-
+prefix: /Users/phil/a50037/envs/a500new
