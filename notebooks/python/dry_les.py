@@ -102,7 +102,7 @@ out=download(the_file,root=the_root,dest_folder=a500.data_dir)
 # %%
 from a500.utils.ncdump import ncdump
 
-
+the_file = a500.data_dir / the_file
 with Dataset(the_file) as nc_in:
     ncdump(nc_in)
 
@@ -201,5 +201,67 @@ cb.set_label('temperature perturbation (K)',rotation=-90)
 # %% [markdown]
 # b.) Plot the horizontally averaged vertical temperature-flux vs. height for each of the 10 ensemble members as 10 lines, to show the variablity in the between individual ensemble members.
 #
+
+# %%
+def do_ensemble_average(nc_in, varname, timestep):
+    """
+        do an ensemble-mean of 3d field varname at timestep=timestep
+        given a netcdf file with groups containing the ensemble members
+        returns varname_average
+        
+        Variable dimension order needs to be (time,z,y,x)
+        
+        Parameters
+        ----------
+        
+        ncfile:  netcdf4 Dataset
+        varname: string
+             variable name to average over
+        timestep: int
+             timestep to select
+
+    """
+    #
+    # also fine to list the group names by hand
+    #  like ['c0','c1','c2',...]
+    #
+    group_names=list(nc_in.groups.keys())
+    print('debug dea: ',group_names)
+    group0=nc_in.groups[group_names[0]]
+    var0=group0.variables[varname][timestep,...]
+    for a_name in group_names[1:]:
+        the_group=nc_in.groups[a_name]
+        new_var = the_group.variables[varname][timestep,...]
+        var0 = var0 + new_var
+    avg_var = var0 / len(group_names)
+    return avg_var
+
+the_file= a500.data_dir / 'case_60_10.nc'
+
+with Dataset(the_file) as nc_in:
+    out=do_ensemble_average(nc_in,'TABS',-1)
+
+print('debug: ',out.shape)
+
+
+# %%
+def find_perturbations(nc_in, varname, timestep):
+    """
+    
+    """
+    the_avg=do_ensemble_average(nc_in, varname, timestep)
+    group_names=list(nc_in.groups.keys())
+    perturb_list=list()
+    for a_name in group_names:
+        the_group=nc_in.groups[a_name]
+        new_var = the_group.variables[varname][timestep,...]
+        the_perturb=new_var - the_avg
+        perturb_list.append(the_perturb)
+    return perturb_list
+
+with Dataset(the_file) as nc_in:
+    out=find_perturbations(nc_in,'TABS',-1)
+
+len(out)
 
 # %%
