@@ -1,6 +1,19 @@
 # %% [markdown]
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span><ul class="toc-item"><li><span><a href="#The-Dry-LES-dataset" data-toc-modified-id="The-Dry-LES-dataset-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>The Dry LES dataset</a></span><ul class="toc-item"><li><span><a href="#Intro-to-netcdf" data-toc-modified-id="Intro-to-netcdf-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>Intro to netcdf</a></span></li></ul></li><li><span><a href="#Intro-to-python-packages" data-toc-modified-id="Intro-to-python-packages-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Intro to python packages</a></span></li><li><span><a href="#Setting-up-the-environment" data-toc-modified-id="Setting-up-the-environment-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Setting up the environment</a></span></li><li><span><a href="#Intro-to-jupytext" data-toc-modified-id="Intro-to-jupytext-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Intro to jupytext</a></span></li><li><span><a href="#Now-download-the-data" data-toc-modified-id="Now-download-the-data-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Now download the data</a></span></li><li><span><a href="#Dumping-the-netcdf-metadata" data-toc-modified-id="Dumping-the-netcdf-metadata-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Dumping the netcdf metadata</a></span></li><li><span><a href="#Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)" data-toc-modified-id="Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Plot $\theta$ profile for every third timestep (i.e. every 30 minutes)</a></span></li><li><span><a href="#Color-contour-plot-of-one-level-for-realization-c1,-last-timestep" data-toc-modified-id="Color-contour-plot-of-one-level-for-realization-c1,-last-timestep-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Color contour plot of one level for realization c1, last timestep</a></span></li></ul></li><li><span><a href="#Assignment" data-toc-modified-id="Assignment-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Assignment</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#setup" data-toc-modified-id="setup-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>setup</a></span></li><li><span><a href="#Introduction" data-toc-modified-id="Introduction-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Introduction</a></span><ul class="toc-item"><li><span><a href="#The-Dry-LES-dataset" data-toc-modified-id="The-Dry-LES-dataset-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>The Dry LES dataset</a></span><ul class="toc-item"><li><span><a href="#Intro-to-netcdf" data-toc-modified-id="Intro-to-netcdf-2.1.1"><span class="toc-item-num">2.1.1&nbsp;&nbsp;</span>Intro to netcdf</a></span></li></ul></li><li><span><a href="#Intro-to-python-packages" data-toc-modified-id="Intro-to-python-packages-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Intro to python packages</a></span></li><li><span><a href="#Setting-up-the-environment" data-toc-modified-id="Setting-up-the-environment-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Setting up the environment</a></span></li><li><span><a href="#Intro-to-jupytext" data-toc-modified-id="Intro-to-jupytext-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Intro to jupytext</a></span></li><li><span><a href="#Now-download-the-data" data-toc-modified-id="Now-download-the-data-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Now download the data</a></span></li><li><span><a href="#Dumping-the-netcdf-metadata" data-toc-modified-id="Dumping-the-netcdf-metadata-2.6"><span class="toc-item-num">2.6&nbsp;&nbsp;</span>Dumping the netcdf metadata</a></span></li><li><span><a href="#Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)" data-toc-modified-id="Plot-$\theta$-profile-for-every-third-timestep-(i.e.-every-30-minutes)-2.7"><span class="toc-item-num">2.7&nbsp;&nbsp;</span>Plot $\theta$ profile for every third timestep (i.e. every 30 minutes)</a></span></li><li><span><a href="#Color-contour-plot-of-one-level-for-realization-c1,-last-timestep" data-toc-modified-id="Color-contour-plot-of-one-level-for-realization-c1,-last-timestep-2.8"><span class="toc-item-num">2.8&nbsp;&nbsp;</span>Color contour plot of one level for realization c1, last timestep</a></span></li></ul></li><li><span><a href="#Assignment" data-toc-modified-id="Assignment-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Assignment</a></span><ul class="toc-item"><li><span><a href="#Option-1----return-perturbations-as-a-list" data-toc-modified-id="Option-1----return-perturbations-as-a-list-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Option 1 -- return perturbations as a list</a></span></li><li><span><a href="#Option-2----return-a-4-dimensional-array-with-ensembles-as-the-first-dimension" data-toc-modified-id="Option-2----return-a-4-dimensional-array-with-ensembles-as-the-first-dimension-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Option 2 -- return a 4 dimensional array with ensembles as the first dimension</a></span></li></ul></li></ul></div>
+
+# %%
+import antigravity
+
+# %% [markdown]
+# # setup
+#
+# Here's an alternative to using the a550/__init__.py file to define your paths. Import context module that lives in the same directory as dry_les.ipynb and python/dry_les.ipynb (so you need two copies).  This can be changed without having
+# to reinstall the a500 module.
+
+# %%
+import context
+print(f'here is the data folder: {context.data_dir}')
 
 # %%
 import sys
@@ -219,6 +232,12 @@ def do_ensemble_average(nc_in, varname, timestep):
              variable name to average over
         timestep: int
              timestep to select
+             
+        Returns
+        -------
+        
+        avg_var:  float
+            ensemble average of the variable
 
     """
     #
@@ -241,11 +260,14 @@ the_file= a500.data_dir / 'case_60_10.nc'
 with Dataset(the_file) as nc_in:
     out=do_ensemble_average(nc_in,'TABS',-1)
 
-print('debug: ',out.shape)
+print(f'debug perturb: {out.shape}')
 
+
+# %% [markdown]
+# ## Option 1 -- return perturbations as a list
 
 # %%
-def find_perturbations(nc_in, varname, timestep):
+def find_perturbations_1(nc_in, varname, timestep):
     """
     
     """
@@ -260,8 +282,48 @@ def find_perturbations(nc_in, varname, timestep):
     return perturb_list
 
 with Dataset(the_file) as nc_in:
-    out=find_perturbations(nc_in,'TABS',-1)
+    out=find_perturbations_1(nc_in,'TABS',-1)
 
 len(out)
 
+
+# %% [markdown]
+# ## Option 2 -- return a 4 dimensional array with ensembles as the first dimension
+
 # %%
+def find_perturbations_2(nc_in, varname, timestep):
+    """
+    
+    """
+    the_avg=do_ensemble_average(nc_in, varname, timestep)
+    #
+    # get the first ensemble member to set the dimensions
+    #
+    group_names=list(nc_in.groups.keys())
+    group_0 = nc_in.groups[group_names[0]]
+    var_0 = group_0.variables[varname][timestep,...]
+    zlen,ylen,xlen=var_0.shape
+    hold_var=np.empty([len(group_names),zlen,ylen,xlen],dtype=var_0.dtype)
+    the_perturb = var_0 - the_avg
+    hold_var[0,...]=the_perturb[...]
+    for index,a_name in enumerate(group_names[1:]):
+        the_group=nc_in.groups[a_name]
+        new_var = the_group.variables[varname][timestep,...]
+        the_perturb=new_var - the_avg
+        hold_var[index+1,...]=the_perturb
+    return hold_var
+
+def do_reynolds(var0,var1):
+    reynolds_avg=(var0*var1).mean(axis=(0,3,2))
+    return reynolds_avg
+
+with Dataset(the_file) as nc_in:
+    Tperturb=find_perturbations_2(nc_in,'TABS',-1)
+    Wperturb=find_perturbations_2(nc_in,'W',-1)
+    
+reynolds_avg=do_reynolds(Wperturb,Tperturb)    
+
+
+print(reynolds_avg.shape)
+
+
