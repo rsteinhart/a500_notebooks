@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 #
 # open the VERSION file and read it into a500.__version__
 # https://github.com/pypa/setuptools/issues/1316
@@ -10,15 +11,21 @@ __version_file__=Path(__file__).parent / Path('VERSION')
 #  __version_file__ to None
 #
 if not __version_file__.is_file():
-    __version__ = 'no_version'
+    __version__ = 'dev0'
     try:
         with open(__version_file__,'w') as f:
-            f.write(__version__)
+            f.write(f'__version__ = "{__version__}"')
     except:
         __version_file__=None
 else:
     with open(__version_file__) as f:
-        __version__=f.read().strip()
+        version_string = f.read()
+        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_string, re.M)
+        if version_match:
+            __version__= version_match.group(1)
+        else:
+            raise RuntimeError('expecting __version__ = "0.0.1" format')
 #
 # define two Path variables to help navigate the folder tree
 # notebooks_dir and data_dir
