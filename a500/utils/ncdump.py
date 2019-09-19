@@ -65,10 +65,10 @@ def ncdump(nc_fid, verb=True):
     # Variable information.
     
     if verb:
-        groups=list(nc_fid.groups.items())
-        if not groups:
-            group_name="root"
-            groups = [(group_name,nc_fid)]
+        group_name="root"
+        groups = [(group_name,nc_fid)]
+        groups_other=list(nc_fid.groups.items())
+        groups.extend(groups_other)
         for group_name, group in groups:
             print(f"NetCDF variable information for group {group_name}:")
             nc_vars = [var for var in group.variables]  # list of nc variables
