@@ -1,0 +1,175 @@
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    boost-cpp-1.70.0           |       h75728bb_2        19.0 MB  conda-forge
+    cairo-1.16.0               |    he1c11cd_1002         1.3 MB  conda-forge
+    cfitsio-3.470              |       h84d2f63_2         1.4 MB  conda-forge
+    coverage-4.5.4             |   py37h01d97ff_0         216 KB  conda-forge
+    exiv2-0.27.1               |       ha4feea6_0         1.1 MB  conda-forge
+    fontconfig-2.13.1          |    h6b1039f_1001         270 KB  conda-forge
+    freexl-1.0.5               |    h1de35cc_1002          42 KB  conda-forge
+    future-0.17.1              |        py37_1000         696 KB  conda-forge
+    gdal-2.4.2                 |   py37h39889d8_4         1.3 MB  conda-forge
+    geos-3.7.2                 |       h6de7cb9_2         736 KB  conda-forge
+    geotiff-1.5.1              |       h83de174_2         125 KB  conda-forge
+    giflib-5.1.7               |       h01d97ff_1         140 KB  conda-forge
+    gsl-2.5                    |       ha2d443c_1         2.7 MB  conda-forge
+    httplib2-0.13.1            |           py37_0         115 KB  conda-forge
+    json-c-0.13.1              |    h1de35cc_1001          64 KB  conda-forge
+    kealib-1.4.10              |    h6659575_1005         162 KB  conda-forge
+    libdap4-3.20.4             |       habf5908_0        12.7 MB  conda-forge
+    libgdal-2.4.2              |       hf77bb78_4        17.1 MB  conda-forge
+    libkml-1.3.0               |    hed7d534_1010         491 KB  conda-forge
+    libpq-11.5                 |       h756f0eb_1         2.4 MB  conda-forge
+    libspatialindex-1.9.0      |       h6de7cb9_1         412 KB  conda-forge
+    libspatialite-4.3.0a       |    he369b6e_1029         3.0 MB  conda-forge
+    libtasn1-4.14              |       h01d97ff_0         100 KB  conda-forge
+    libzip-1.5.1               |    h22952d1_1005          97 KB  conda-forge
+    mock-3.0.5                 |           py37_0          44 KB  conda-forge
+    nose2-0.9.1                |             py_0          90 KB  conda-forge
+    openjpeg-2.3.1             |       hdc36067_1         377 KB  conda-forge
+    owslib-0.18.0              |             py_0         124 KB  conda-forge
+    pixman-0.38.0              |    h01d97ff_1003         611 KB  conda-forge
+    plotly-4.1.1               |             py_0         4.0 MB  conda-forge
+    poppler-0.67.0             |       hd5eb092_7         1.6 MB  conda-forge
+    poppler-data-0.4.9         |                1         3.4 MB  conda-forge
+    postgresql-11.5            |       h25afefd_1         4.3 MB  conda-forge
+    proj4-6.1.0                |       h2cc77ee_2         9.2 MB  conda-forge
+    psycopg2-2.8.3             |   py37h212c5bf_0         147 KB  conda-forge
+    pyproj-2.2.1               |   py37h804dea5_0         203 KB  conda-forge
+    qca-2.2.1                  |       hc6ac302_2         877 KB  conda-forge
+    qgis-3.8.3                 |   py37h692ee87_0        54.9 MB  conda-forge
+    qjson-0.9.0                |    hc6ac302_1005          63 KB  conda-forge
+    qscintilla2-2.11.2         |   py37hc6ac302_0         1.6 MB  conda-forge
+    qtkeychain-0.9.1           |    hc6ac302_1001          29 KB  conda-forge
+    qtlocation-5.9.7           |       h6de7cb9_1           7 KB  conda-forge
+    qtserialport-5.9.8         |       hc6ac302_0          44 KB  conda-forge
+    qwt-6.1.4                  |    hc6ac302_1003         3.8 MB  conda-forge
+    qwtpolar-1.1.1             |       hc6ac302_6         439 KB  conda-forge
+    retrying-1.3.3             |             py_2          11 KB  conda-forge
+    tzcode-2019a               |    h01d97ff_1002         429 KB  conda-forge
+    xerces-c-3.2.2             |    hbda6038_1004         1.5 MB  conda-forge
+    ------------------------------------------------------------
+                                           Total:       153.4 MB
+
+The following NEW packages will be INSTALLED:
+
+  asn1crypto         conda-forge/osx-64::asn1crypto-0.24.0-py37_1003
+  boost-cpp          conda-forge/osx-64::boost-cpp-1.70.0-h75728bb_2
+  bzip2              conda-forge/osx-64::bzip2-1.0.8-h01d97ff_1
+  ca-certificates    conda-forge/osx-64::ca-certificates-2019.9.11-hecc5488_0
+  cairo              conda-forge/osx-64::cairo-1.16.0-he1c11cd_1002
+  certifi            conda-forge/osx-64::certifi-2019.9.11-py37_0
+  cffi               conda-forge/osx-64::cffi-1.12.3-py37hccf1714_0
+  cfitsio            conda-forge/osx-64::cfitsio-3.470-h84d2f63_2
+  chardet            conda-forge/osx-64::chardet-3.0.4-py37_1003
+  coverage           conda-forge/osx-64::coverage-4.5.4-py37h01d97ff_0
+  cryptography       conda-forge/osx-64::cryptography-2.7-py37h212c5bf_0
+  curl               conda-forge/osx-64::curl-7.65.3-h22ea746_0
+  dbus               conda-forge/osx-64::dbus-1.13.6-h2f22bb5_0
+  exiv2              conda-forge/osx-64::exiv2-0.27.1-ha4feea6_0
+  expat              conda-forge/osx-64::expat-2.2.5-h6de7cb9_1003
+  fontconfig         conda-forge/osx-64::fontconfig-2.13.1-h6b1039f_1001
+  freetype           conda-forge/osx-64::freetype-2.10.0-h24853df_1
+  freexl             conda-forge/osx-64::freexl-1.0.5-h1de35cc_1002
+  future             conda-forge/osx-64::future-0.17.1-py37_1000
+  gdal               conda-forge/osx-64::gdal-2.4.2-py37h39889d8_4
+  geos               conda-forge/osx-64::geos-3.7.2-h6de7cb9_2
+  geotiff            conda-forge/osx-64::geotiff-1.5.1-h83de174_2
+  gettext            conda-forge/osx-64::gettext-0.19.8.1-h46ab8bc_1002
+  giflib             conda-forge/osx-64::giflib-5.1.7-h01d97ff_1
+  glib               conda-forge/osx-64::glib-2.58.3-h9d45998_1002
+  gsl                conda-forge/osx-64::gsl-2.5-ha2d443c_1
+  hdf4               conda-forge/osx-64::hdf4-4.2.13-hf3c6af0_1002
+  hdf5               conda-forge/osx-64::hdf5-1.10.5-nompi_h15a436c_1103
+  httplib2           conda-forge/osx-64::httplib2-0.13.1-py37_0
+  icu                conda-forge/osx-64::icu-64.2-h6de7cb9_1
+  idna               conda-forge/osx-64::idna-2.8-py37_1000
+  jinja2             conda-forge/noarch::jinja2-2.10.1-py_0
+  jpeg               conda-forge/osx-64::jpeg-9c-h1de35cc_1001
+  json-c             conda-forge/osx-64::json-c-0.13.1-h1de35cc_1001
+  kealib             conda-forge/osx-64::kealib-1.4.10-h6659575_1005
+  krb5               conda-forge/osx-64::krb5-1.16.3-hcfa6398_1001
+  libblas            conda-forge/osx-64::libblas-3.8.0-12_openblas
+  libcblas           conda-forge/osx-64::libcblas-3.8.0-12_openblas
+  libcurl            conda-forge/osx-64::libcurl-7.65.3-h16faf7d_0
+  libcxx             conda-forge/osx-64::libcxx-8.0.1-0
+  libcxxabi          conda-forge/osx-64::libcxxabi-8.0.1-0
+  libdap4            conda-forge/osx-64::libdap4-3.20.4-habf5908_0
+  libedit            conda-forge/osx-64::libedit-3.1.20170329-hcfe32e1_1001
+  libffi             conda-forge/osx-64::libffi-3.2.1-h6de7cb9_1006
+  libgdal            conda-forge/osx-64::libgdal-2.4.2-hf77bb78_4
+  libgfortran        conda-forge/osx-64::libgfortran-4.0.0-2
+  libiconv           conda-forge/osx-64::libiconv-1.15-h01d97ff_1005
+  libkml             conda-forge/osx-64::libkml-1.3.0-hed7d534_1010
+  liblapack          conda-forge/osx-64::liblapack-3.8.0-12_openblas
+  libnetcdf          conda-forge/osx-64::libnetcdf-4.6.2-h1a02027_1003
+  libopenblas        conda-forge/osx-64::libopenblas-0.3.7-h4bb4525_1
+  libpng             conda-forge/osx-64::libpng-1.6.37-h2573ce8_0
+  libpq              conda-forge/osx-64::libpq-11.5-h756f0eb_1
+  libspatialindex    conda-forge/osx-64::libspatialindex-1.9.0-h6de7cb9_1
+  libspatialite      conda-forge/osx-64::libspatialite-4.3.0a-he369b6e_1029
+  libssh2            conda-forge/osx-64::libssh2-1.8.2-hcdc9a53_2
+  libtasn1           conda-forge/osx-64::libtasn1-4.14-h01d97ff_0
+  libtiff            conda-forge/osx-64::libtiff-4.0.10-hd08fb8f_1003
+  libxml2            conda-forge/osx-64::libxml2-2.9.9-h12c6b28_5
+  libzip             conda-forge/osx-64::libzip-1.5.1-h22952d1_1005
+  llvm-openmp        conda-forge/osx-64::llvm-openmp-8.0.1-h770b8ee_0
+  lz4-c              conda-forge/osx-64::lz4-c-1.8.3-h6de7cb9_1001
+  markupsafe         conda-forge/osx-64::markupsafe-1.1.1-py37h1de35cc_0
+  mock               conda-forge/osx-64::mock-3.0.5-py37_0
+  ncurses            conda-forge/osx-64::ncurses-6.1-h0a44026_1002
+  nose2              conda-forge/noarch::nose2-0.9.1-py_0
+  numpy              conda-forge/osx-64::numpy-1.17.2-py37h6b0580a_0
+  openjpeg           conda-forge/osx-64::openjpeg-2.3.1-hdc36067_1
+  openssl            conda-forge/osx-64::openssl-1.1.1c-h01d97ff_0
+  owslib             conda-forge/noarch::owslib-0.18.0-py_0
+  pcre               conda-forge/osx-64::pcre-8.41-h0a44026_1003
+  pip                conda-forge/osx-64::pip-19.2.3-py37_0
+  pixman             conda-forge/osx-64::pixman-0.38.0-h01d97ff_1003
+  plotly             conda-forge/noarch::plotly-4.1.1-py_0
+  poppler            conda-forge/osx-64::poppler-0.67.0-hd5eb092_7
+  poppler-data       conda-forge/noarch::poppler-data-0.4.9-1
+  postgresql         conda-forge/osx-64::postgresql-11.5-h25afefd_1
+  proj4              conda-forge/osx-64::proj4-6.1.0-h2cc77ee_2
+  psycopg2           conda-forge/osx-64::psycopg2-2.8.3-py37h212c5bf_0
+  pycparser          conda-forge/osx-64::pycparser-2.19-py37_1
+  pygments           conda-forge/noarch::pygments-2.4.2-py_0
+  pyopenssl          conda-forge/osx-64::pyopenssl-19.0.0-py37_0
+  pyproj             conda-forge/osx-64::pyproj-2.2.1-py37h804dea5_0
+  pyqt               conda-forge/osx-64::pyqt-5.9.2-py37h2a560b1_4
+  pysocks            conda-forge/osx-64::pysocks-1.7.0-py37_0
+  python             conda-forge/osx-64::python-3.7.3-h93065d6_1
+  python-dateutil    conda-forge/noarch::python-dateutil-2.8.0-py_0
+  pytz               conda-forge/noarch::pytz-2019.2-py_0
+  pyyaml             conda-forge/osx-64::pyyaml-5.1.2-py37h01d97ff_0
+  qca                conda-forge/osx-64::qca-2.2.1-hc6ac302_2
+  qgis               conda-forge/osx-64::qgis-3.8.3-py37h692ee87_0
+  qjson              conda-forge/osx-64::qjson-0.9.0-hc6ac302_1005
+  qscintilla2        conda-forge/osx-64::qscintilla2-2.11.2-py37hc6ac302_0
+  qt                 conda-forge/osx-64::qt-5.9.7-h8cf7e54_3
+  qtkeychain         conda-forge/osx-64::qtkeychain-0.9.1-hc6ac302_1001
+  qtlocation         conda-forge/osx-64::qtlocation-5.9.7-h6de7cb9_1
+  qtserialport       conda-forge/osx-64::qtserialport-5.9.8-hc6ac302_0
+  qwt                conda-forge/osx-64::qwt-6.1.4-hc6ac302_1003
+  qwtpolar           conda-forge/osx-64::qwtpolar-1.1.1-hc6ac302_6
+  readline           conda-forge/osx-64::readline-8.0-hcfe32e1_0
+  requests           conda-forge/osx-64::requests-2.22.0-py37_1
+  retrying           conda-forge/noarch::retrying-1.3.3-py_2
+  setuptools         conda-forge/osx-64::setuptools-41.2.0-py37_0
+  sip                conda-forge/osx-64::sip-4.19.8-py37h0a44026_1000
+  six                conda-forge/osx-64::six-1.12.0-py37_1000
+  sqlite             conda-forge/osx-64::sqlite-3.29.0-hb7d70f7_1
+  tk                 conda-forge/osx-64::tk-8.6.9-h2573ce8_1003
+  tzcode             conda-forge/osx-64::tzcode-2019a-h01d97ff_1002
+  urllib3            conda-forge/osx-64::urllib3-1.25.3-py37_0
+  wheel              conda-forge/osx-64::wheel-0.33.6-py37_0
+  xerces-c           conda-forge/osx-64::xerces-c-3.2.2-hbda6038_1004
+  xz                 conda-forge/osx-64::xz-5.2.4-h1de35cc_1001
+  yaml               conda-forge/osx-64::yaml-0.1.7-h1de35cc_1001
+  zlib               conda-forge/osx-64::zlib-1.2.11-h01d97ff_1006
+  zstd               conda-forge/osx-64::zstd-1.4.0-ha9f0a20_0
+
+
+Proceed ([y]/n)? y

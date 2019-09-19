@@ -1,0 +1,9 @@
+function condap()
+{
+    #the_name=$(hostname) -- Linux
+    #macos:
+    the_name=$(scutil --get LocalHostName)  
+    out=`basename $CONDA_PREFIX`
+    unset PS1
+    PS1="\w ${out} \u@${the_name}\n% "
+}
