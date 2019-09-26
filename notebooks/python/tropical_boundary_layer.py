@@ -28,7 +28,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Including-water-vapor-in-the-tropical-analysis" data-toc-modified-id="Including-water-vapor-in-the-tropical-analysis-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Including water vapor in the tropical analysis</a></span><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Reading a netcdf file</a></span><ul class="toc-item"><li><span><a href="#set-this-to-True-if-running-for-the-first-time" data-toc-modified-id="set-this-to-True-if-running-for-the-first-time-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>set this to True if running for the first time</a></span></li></ul></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li></ul></li></ul></li><li><span><a href="#Plotting-three-$h_m$-profiles" data-toc-modified-id="Plotting-three-$h_m$-profiles-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Plotting three $h_m$ profiles</a></span><ul class="toc-item"><li><ul class="toc-item"><li><span><a href="#moist-static-energy-(J/kg)" data-toc-modified-id="moist-static-energy-(J/kg)-2.0.1"><span class="toc-item-num">2.0.1&nbsp;&nbsp;</span>moist static energy (J/kg)</a></span></li><li><span><a href="#zoom-in-on-bottom-1-km" data-toc-modified-id="zoom-in-on-bottom-1-km-2.0.2"><span class="toc-item-num">2.0.2&nbsp;&nbsp;</span>zoom in on bottom 1 km</a></span></li></ul></li></ul></li><li><span><a href="#Calculate-the-temperature-and-vapor-fluxes" data-toc-modified-id="Calculate-the-temperature-and-vapor-fluxes-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Calculate the temperature and vapor fluxes</a></span><ul class="toc-item"><li><ul class="toc-item"><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-3.0.1"><span class="toc-item-num">3.0.1&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li><li><span><a href="#Closer-examination-of-fluxes-at-800-m" data-toc-modified-id="Closer-examination-of-fluxes-at-800-m-3.0.2"><span class="toc-item-num">3.0.2&nbsp;&nbsp;</span>Closer examination of fluxes at 800 m</a></span></li><li><span><a href="#now-do-the-same-for-the-turbulent-fluxes-at-that-level-in-W/m^2" data-toc-modified-id="now-do-the-same-for-the-turbulent-fluxes-at-that-level-in-W/m^2-3.0.3"><span class="toc-item-num">3.0.3&nbsp;&nbsp;</span>now do the same for the turbulent fluxes at that level in W/m^2</a></span></li><li><span><a href="#But-there-are-some-gridcells-with-huge-flux-values" data-toc-modified-id="But-there-are-some-gridcells-with-huge-flux-values-3.0.4"><span class="toc-item-num">3.0.4&nbsp;&nbsp;</span>But there are some gridcells with huge flux values</a></span></li><li><span><a href="#So-what's-up-with-these-large-fluxes?" data-toc-modified-id="So-what's-up-with-these-large-fluxes?-3.0.5"><span class="toc-item-num">3.0.5&nbsp;&nbsp;</span>So what's up with these large fluxes?</a></span></li><li><span><a href="#Conclusion:-these-large-fluxes-are-coming-from-cloudy-grid-cells-with-coherent-updrafts" data-toc-modified-id="Conclusion:-these-large-fluxes-are-coming-from-cloudy-grid-cells-with-coherent-updrafts-3.0.6"><span class="toc-item-num">3.0.6&nbsp;&nbsp;</span>Conclusion: these large fluxes are coming from cloudy grid cells with coherent updrafts</a></span></li><li><span><a href="#Next:--joint-distributions" data-toc-modified-id="Next:--joint-distributions-3.0.7"><span class="toc-item-num">3.0.7&nbsp;&nbsp;</span>Next:  joint distributions</a></span></li><li><span><a href="#Writing-our-own-histogram-routine" data-toc-modified-id="Writing-our-own-histogram-routine-3.0.8"><span class="toc-item-num">3.0.8&nbsp;&nbsp;</span>Writing our own histogram routine</a></span></li><li><span><a href="#Now-redo-the-wvel,-T-scatterplot-as-a-2-d-histogram,-plotting-log10(counts)" data-toc-modified-id="Now-redo-the-wvel,-T-scatterplot-as-a-2-d-histogram,-plotting-log10(counts)-3.0.9"><span class="toc-item-num">3.0.9&nbsp;&nbsp;</span>Now redo the wvel, T scatterplot as a 2-d histogram, plotting log10(counts)</a></span></li></ul></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Reading a netcdf file</a></span><ul class="toc-item"><li><span><a href="#set-this-to-True-if-running-for-the-first-time" data-toc-modified-id="set-this-to-True-if-running-for-the-first-time-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>set this to True if running for the first time</a></span></li></ul></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li><li><span><a href="#moist-static-energy-(J/kg)" data-toc-modified-id="moist-static-energy-(J/kg)-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>moist static energy (J/kg)</a></span></li><li><span><a href="#zoom-in-on-bottom-1-km" data-toc-modified-id="zoom-in-on-bottom-1-km-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>zoom in on bottom 1 km</a></span></li><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li><li><span><a href="#Closer-examination-of-fluxes-at-800-m" data-toc-modified-id="Closer-examination-of-fluxes-at-800-m-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Closer examination of fluxes at 800 m</a></span></li><li><span><a href="#now-do-the-same-for-the-turbulent-fluxes-at-that-level-in-W/m^2" data-toc-modified-id="now-do-the-same-for-the-turbulent-fluxes-at-that-level-in-W/m^2-2.6"><span class="toc-item-num">2.6&nbsp;&nbsp;</span>now do the same for the turbulent fluxes at that level in W/m^2</a></span></li><li><span><a href="#But-there-are-some-gridcells-with-huge-flux-values" data-toc-modified-id="But-there-are-some-gridcells-with-huge-flux-values-2.7"><span class="toc-item-num">2.7&nbsp;&nbsp;</span>But there are some gridcells with huge flux values</a></span></li><li><span><a href="#So-what's-up-with-these-large-fluxes?" data-toc-modified-id="So-what's-up-with-these-large-fluxes?-2.8"><span class="toc-item-num">2.8&nbsp;&nbsp;</span>So what's up with these large fluxes?</a></span></li><li><span><a href="#Conclusion:-these-large-fluxes-are-coming-from-cloudy-grid-cells-with-coherent-updrafts" data-toc-modified-id="Conclusion:-these-large-fluxes-are-coming-from-cloudy-grid-cells-with-coherent-updrafts-2.9"><span class="toc-item-num">2.9&nbsp;&nbsp;</span>Conclusion: these large fluxes are coming from cloudy grid cells with coherent updrafts</a></span></li><li><span><a href="#Next:--joint-distributions" data-toc-modified-id="Next:--joint-distributions-2.10"><span class="toc-item-num">2.10&nbsp;&nbsp;</span>Next:  joint distributions</a></span></li><li><span><a href="#Writing-our-own-histogram-routine" data-toc-modified-id="Writing-our-own-histogram-routine-2.11"><span class="toc-item-num">2.11&nbsp;&nbsp;</span>Writing our own histogram routine</a></span></li><li><span><a href="#Now-redo-the-wvel,-T-scatterplot-as-a-2-d-histogram,-plotting-log10(counts)" data-toc-modified-id="Now-redo-the-wvel,-T-scatterplot-as-a-2-d-histogram,-plotting-log10(counts)-2.12"><span class="toc-item-num">2.12&nbsp;&nbsp;</span>Now redo the wvel, T scatterplot as a 2-d histogram, plotting log10(counts)</a></span></li></ul></li></ul></div>
 
 # %% [markdown]
 # # Including water vapor in the tropical analysis
@@ -98,7 +98,7 @@ with Dataset(a500.data_dir / 'tropical_subset.nc') as ncin:
 # 3\.  Read a variable using the netCDF4 module:  http://unidata.github.io/netcdf4-python/
 
 # %%
-with Dataset('tropical_subset.nc','r') as nc_in:
+with Dataset(a500.data_dir / 'tropical_subset.nc','r') as nc_in:
     print(list(nc_in.variables.keys()))
     the_temp=nc_in.variables['TABS'][0,...]  
     #
@@ -131,7 +131,7 @@ type(ql), type(qv), type(wvel)
 # %%
 bins=np.linspace(0.05,1.5,20)
 out=plt.hist(ql.compressed(),bins=bins)
-plt.title('histogram of cloud lwc (g/kg)')
+plt.title('histogram of cloud lwc (g/kg)');
 
 # %% [markdown]
 # # Plotting three $h_m$ profiles
@@ -247,7 +247,7 @@ out=[the_ax.set(ylim=(0,1.5)) for the_ax in ax]
 #
 # 1\.  Look at simple histograms at one level
 
-# %% {"scrolled": true}
+# %% {"collapsed": true}
 #
 # select the level closest to 800 meters
 # using searchsorted
@@ -265,7 +265,7 @@ ax[1].set(title='latent heat flux at 800 m (W/m^2)');
 # %% [markdown]
 # ### now do the same for the turbulent fluxes at that level in W/m^2
 
-# %%
+# %% {"scrolled": false}
 wpert_800=w_perturb[zlev,...]
 Tpert_800=temp_perturb[zlev,...]
 qvpert_800 = qv_perturb[zlev,...]
@@ -278,17 +278,18 @@ out=ax[0].hist(qv_flux800.compressed(),bins=np.linspace(-100,100,100))
 out=ax[1].hist(T_flux800.compressed(),bins=np.linspace(-100,100,100))
 [item.set(ylabel='count') for item in ax]
 ax[0].set(xlabel='vapor flux (W/m^2) at 800 m')
-ax[1].set(xlabel='temperature flux (W/m^2) at 800 m')
+ax[1].set(xlabel='temperature flux (W/m^2) at 800 m');
 
 # %% [markdown]
 # ###  But there are some gridcells with huge flux values
 #
 # Here's what happens when I don't limit the flux ranges
 
-# %%
+# %% {"scrolled": false}
 fig,ax=plt.subplots(1,1)
 ax.scatter(qv_flux800.compressed(),T_flux800.compressed())
 ax.set(xlabel=r'latent heat flux (W/m^2)',ylabel=r'sensible heat flux (W m^2)')
+
 
 # %% [markdown]
 # ### So what's up with these large fluxes?
@@ -320,6 +321,12 @@ ax.set(xlabel=r'latent heat flux (W/m^2)',ylabel=r'sensible heat flux (W m^2)')
 # ```
 
 # %%
+def tryme(a=5,b=6):
+    print(a,b)
+the_dict={'a':7,'bb':10}
+tryme(**the_dict)
+
+# %% {"scrolled": false}
 out=np.where(np.logical_and(qv_flux800 > 1000., T_flux800 > 1000))
 #
 #  unpack out into two individual lists and zip, then turn back
@@ -328,8 +335,9 @@ out=np.where(np.logical_and(qv_flux800 > 1000., T_flux800 > 1000))
 flux_list=list(zip(*out))
 for item in flux_list:
     print(item)
+qv_flux800.shape
 
-# %% {"scrolled": true}
+# %% {"scrolled": false}
 fig,ax=plt.subplots(1,4,figsize=(18,8))
 for y,x in flux_list:
     ax[0].plot(the_temp[:,y,x],the_height)
@@ -361,7 +369,7 @@ out=[the_ax.set(ylim=(0,1200)) for the_ax in ax]
 # Below we use seaborn.jointplot to print a fancy 2d histogram for the joint
 # distribution of the vapor and temperture fluxes
 
-# %%
+# %% {"scrolled": false}
 import seaborn as sns
 #
 #  limit the range f the data to be plotted
@@ -417,14 +425,14 @@ ax.set(xlabel=r'$w^\prime\ (m/s)$',ylabel=r'$T^\prime\ (K)$');
 import numba
 from numba import jit
 
-# %%
+# %% {"scrolled": false}
 from a500.utils.hist_numba import hist2d
 print(help(hist2d))
 
 # %% [markdown]
 # ### Now redo the wvel, T scatterplot as a 2-d histogram, plotting log10(counts)
 
-# %%
+# %% {"scrolled": false}
 
 #
 from matplotlib.colors import Normalize
