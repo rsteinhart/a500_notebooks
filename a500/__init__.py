@@ -1,5 +1,7 @@
 from pathlib import Path
+import sys
 import re
+import site
 #
 # open the VERSION file and read it into a500.__version__
 # https://github.com/pypa/setuptools/issues/1316
@@ -40,7 +42,8 @@ for the_dir in [data_dir, test_dir, map_dir]:
     if not the_dir.is_dir():
         print(f"creating {the_dir}")
         the_dir.mkdir(parents=True, exist_ok=True)
-print(f"through {__file__}")
+
+print(f"through {__file__} pha II")
 
 
 
