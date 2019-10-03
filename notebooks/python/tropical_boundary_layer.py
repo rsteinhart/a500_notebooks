@@ -56,17 +56,6 @@ from matplotlib import pyplot as plt
 from a500.utils.ncdump import ncdump
 import a500
 
-# %% [markdown]
-# Only download the data once -- set this to True if you need
-# this file, otherwise skip
-
-# %% [markdown]
-# data_download=False
-# ### set this to True if running for the first time
-# if data_download:
-#     urllib.request.urlretrieve("http://clouds.eos.ubc.ca/~phil/docs/atsc500/tropical_subset.nc", 
-#                            "tropical_subset.nc")
-
 # %%
 from a500.utils.data_read import download
 the_root = "http://clouds.eos.ubc.ca/~phil/docs/atsc500"
@@ -247,7 +236,7 @@ out=[the_ax.set(ylim=(0,1.5)) for the_ax in ax]
 #
 # 1\.  Look at simple histograms at one level
 
-# %% {"collapsed": true}
+# %%
 #
 # select the level closest to 800 meters
 # using searchsorted
