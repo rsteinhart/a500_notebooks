@@ -49,7 +49,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Reading a netcdf file</a></span></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li></ul></li><li><span><a href="#Now-look-at-the-individual-budget-terms" data-toc-modified-id="Now-look-at-the-individual-budget-terms-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Now look at the individual budget terms</a></span></li><li><span><a href="#Save-all-this-in-a-dictionary" data-toc-modified-id="Save-all-this-in-a-dictionary-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Save all this in a dictionary</a></span></li><li><span><a href="#check-some-values" data-toc-modified-id="check-some-values-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>check some values</a></span></li><li><span><a href="#Do-a-checkpoint-save-for-all-the-variables" data-toc-modified-id="Do-a-checkpoint-save-for-all-the-variables-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Do a checkpoint save for all the variables</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Reading a netcdf file</a></span></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li></ul></li><li><span><a href="#Now-look-at-the-individual-budget-terms" data-toc-modified-id="Now-look-at-the-individual-budget-terms-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Now look at the individual budget terms</a></span></li><li><span><a href="#Save-all-this-in-a-dictionary" data-toc-modified-id="Save-all-this-in-a-dictionary-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Save all this in a dictionary</a></span></li><li><span><a href="#check-some-values" data-toc-modified-id="check-some-values-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>check some values</a></span></li><li><span><a href="#Do-a-checkpoint-save-for-all-the-variables" data-toc-modified-id="Do-a-checkpoint-save-for-all-the-variables-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Do a checkpoint save for all the variables</a></span></li><li><span><a href="#What-are-the-rms-perturbation-profiles?" data-toc-modified-id="What-are-the-rms-perturbation-profiles?-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>What are the rms perturbation profiles?</a></span></li></ul></div>
 
 # %% [raw]
 # \pagestyle{first}
@@ -230,6 +230,8 @@ theta = np.array(theta.T)
 keys=['u','v','w','pp','theta','qv','thetav']
 values = [uvel,vvel,wvel,pp,theta,qv,thetav]
 var_dict=dict(zip(keys,values))
+var_dict['p0']=the_press
+var_dict['z'] = zvals
 
 
 # %%
@@ -263,7 +265,7 @@ for key, value in var_dict.items():
     #
     # pressure perturbation already done
     #
-    if key == 'pp':
+    if key in ['pp','z','p0']:
         continue
     new_dict = save_reynolds(key, value)
     keep_dict.update(new_dict)
@@ -296,7 +298,8 @@ def hist_prep(var):
 
 # %%
 fig, axvec = plt.subplots(3,2,figsize=(10,10))
-for count,key in enumerate(['u_pert', 'v_pert', 'w_pert', 'theta_pert','qv_pert','thetav_pert']):
+the_vars = ['u_pert', 'v_pert', 'w_pert', 'theta_pert','qv_pert','thetav_pert']
+for count,key in enumerate(the_vars):
     var=hist_prep(keep_dict[key])
     axvec.flat[count].hist(var)
     axvec.flat[count].set_title(key)
@@ -307,6 +310,9 @@ for count,key in enumerate(['u_pert', 'v_pert', 'w_pert', 'theta_pert','qv_pert'
 # %%
 the_file = a500.data_dir / 'tropical_vapor.npz'
 np.savez_compressed(the_file,**keep_dict)
+
+# %%
+list(keep_dict.keys())
 
 # %%
 a=np.load(the_file)
@@ -338,4 +344,25 @@ a=np.load(the_file)
 # -2 v \overline { \underbrace{\left ( \frac{\partial u_i^\prime }{ \partial x_j} \right ) \left ( \frac{\partial q^\prime} {\partial x_j} \right )}_{X} }
 # \end{align}
 
+# %% [markdown] {"trusted": true}
+# ## What are the rms perturbation profiles?
+
 # %%
+len(zvals)
+
+
+# %%
+def plot_pert(ax,keep_dict,key):
+    the_var = (keep_dict[key]**2.).mean(axis=(1,2))
+    ax.plot(the_var**0.5,keep_dict['z'],'r-')
+    ax.set_title(key)
+    
+fig, axes = plt.subplots(3,2,figsize=(10,10))
+flat_axes = axes.flat
+for ax, varname in zip(flat_axes,the_vars):
+    plot_pert(ax,keep_dict,varname)
+
+
+
+# %%
+help(axes[0,0].plot)
