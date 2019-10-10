@@ -58,6 +58,7 @@
 # 1.  Fetch the netcdf file tropical.nc from my webserver (50 Mbytes)
 
 # %%
+import context
 import urllib.request
 import numpy as np
 from netCDF4 import Dataset
@@ -190,7 +191,7 @@ temp_avg,temp_perturb=do_reynolds(the_temp)
 rho_avg=the_press/(Rd*temp_avg)
 w_avg,w_perturb = do_reynolds(wvel)
 T_flux=((w_perturb*temp_perturb).T*rho_avg).T*cpd  #W/m^2
-qv_flux=((w_perturb*qv_perturb).T*rho_avg).T*lv*g2kg #W/m^2
+qv_flux=((w_perturb*qv_perturb).T*rho_avg).T*lv #W/m^2
 T_flux_1d=(T_flux).mean(axis=2).mean(axis=1)
 qv_flux_1d=(qv_flux).mean(axis=2).mean(axis=1)
 
@@ -289,4 +290,10 @@ for count,key in enumerate(['u_pert', 'v_pert', 'w_pert', 'theta_pert','qv_pert'
 # ## Do a checkpoint save for all the variables
 
 # %%
-np.savez_compressed('tropical_vapor.npz',**keep_dict)
+the_file = a500.data_dir / 'tropical_vapor.npz'
+np.savez_compressed(the_file,**keep_dict)
+
+# %%
+a=np.load(the_file)
+
+# %%
