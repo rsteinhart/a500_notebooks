@@ -49,7 +49,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Reading a netcdf file</a></span></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li></ul></li><li><span><a href="#Now-look-at-the-individual-budget-terms" data-toc-modified-id="Now-look-at-the-individual-budget-terms-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Now look at the individual budget terms</a></span></li><li><span><a href="#Save-all-this-in-a-dictionary" data-toc-modified-id="Save-all-this-in-a-dictionary-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Save all this in a dictionary</a></span></li><li><span><a href="#check-some-values" data-toc-modified-id="check-some-values-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>check some values</a></span></li><li><span><a href="#Do-a-checkpoint-save-for-all-the-variables" data-toc-modified-id="Do-a-checkpoint-save-for-all-the-variables-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Do a checkpoint save for all the variables</a></span></li><li><span><a href="#What-are-the-rms-perturbation-profiles?" data-toc-modified-id="What-are-the-rms-perturbation-profiles?-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>What are the rms perturbation profiles?</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Reading-a-netcdf-file" data-toc-modified-id="Reading-a-netcdf-file-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Reading a netcdf file</a></span></li><li><span><a href="#By-default-netCDF4-converts-netcdf-variables-to-masked-arrays" data-toc-modified-id="By-default-netCDF4-converts-netcdf-variables-to-masked-arrays-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>By default netCDF4 converts netcdf variables to masked arrays</a></span><ul class="toc-item"><li><span><a href="#How-much-liquid-water-is-in-the-domain?" data-toc-modified-id="How-much-liquid-water-is-in-the-domain?-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>How much liquid water is in the domain?</a></span></li><li><span><a href="#As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer" data-toc-modified-id="As-expected,-vapor-transport-dominates-the-energy-flux-in-the-warm-marine-boundary-layer-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>As expected, vapor transport dominates the energy flux in the warm marine boundary layer</a></span></li></ul></li><li><span><a href="#Now-look-at-the-individual-budget-terms" data-toc-modified-id="Now-look-at-the-individual-budget-terms-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Now look at the individual budget terms</a></span></li><li><span><a href="#Save-all-this-in-a-dictionary" data-toc-modified-id="Save-all-this-in-a-dictionary-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Save all this in a dictionary</a></span></li><li><span><a href="#check-some-values" data-toc-modified-id="check-some-values-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>check some values</a></span></li><li><span><a href="#Do-a-checkpoint-save-for-all-the-variables" data-toc-modified-id="Do-a-checkpoint-save-for-all-the-variables-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Do a checkpoint save for all the variables</a></span></li><li><span><a href="#What-are-the-rms-perturbation-profiles?" data-toc-modified-id="What-are-the-rms-perturbation-profiles?-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>What are the rms perturbation profiles?</a></span></li><li><span><a href="#set-scaling-parameters-q*-and-w*-from-rms-values" data-toc-modified-id="set-scaling-parameters-q*-and-w*-from-rms-values-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>set scaling parameters q* and w* from rms values</a></span></li><li><span><a href="#Look-at-mean-gradient-terms-in-XI" data-toc-modified-id="Look-at-mean-gradient-terms-in-XI-9"><span class="toc-item-num">9&nbsp;&nbsp;</span>Look at mean gradient terms in XI</a></span></li><li><span><a href="#Sum-the-three-terms" data-toc-modified-id="Sum-the-three-terms-10"><span class="toc-item-num">10&nbsp;&nbsp;</span>Sum the three terms</a></span></li></ul></div>
 
 # %% [raw]
 # \pagestyle{first}
@@ -155,6 +155,8 @@ with Dataset(a500.data_dir / 'tropical_subset.nc','r') as nc_in:
     the_height=nc_in.variables['z'][...]
     hit = the_height < 2000.
     zvals = the_height[hit]
+    xvals=nc_in.variables['x'][...]
+    yvals=nc_in.variables['y'][...]
     the_temp=nc_in.variables['TABS'][0,hit,:,:]  
     #
     # remove the time dimension since we only have one timestep
@@ -198,6 +200,7 @@ plt.title('histogram of cloud lwc (g/kg)');
 # %%
 Rd=287  #J/kg/K
 g2kg = 1.e-3
+kg2g= 1.e3
 cpd=1004.
 lv = 2.5e6
 meter2km = 1.e-3
@@ -232,6 +235,8 @@ values = [uvel,vvel,wvel,pp,theta,qv,thetav]
 var_dict=dict(zip(keys,values))
 var_dict['p0']=the_press
 var_dict['z'] = zvals
+var_dict['x'] = xvals
+var_dict['y'] = yvals
 
 
 # %%
@@ -265,10 +270,11 @@ for key, value in var_dict.items():
     #
     # pressure perturbation already done
     #
-    if key in ['pp','z','p0']:
+    if key in ['pp','x','y','z','p0']:
         continue
     new_dict = save_reynolds(key, value)
     keep_dict.update(new_dict)
+keep_dict['qv_pert_grams']=keep_dict['qv_pert']*1.e3
 print(keep_dict.keys())
 
 
@@ -297,12 +303,14 @@ def hist_prep(var):
 
 
 # %%
-fig, axvec = plt.subplots(3,2,figsize=(10,10))
-the_vars = ['u_pert', 'v_pert', 'w_pert', 'theta_pert','qv_pert','thetav_pert']
+fig, axvec = plt.subplots(4,2,figsize=(10,10),constrained_layout=True)
+the_vars = ['u_pert', 'v_pert', 'w_pert', 'theta_pert','thetav_pert','qv_pert_grams','pp']
+axvec_flat = list(axvec.flat)
 for count,key in enumerate(the_vars):
     var=hist_prep(keep_dict[key])
-    axvec.flat[count].hist(var)
-    axvec.flat[count].set_title(key)
+    axvec_flat[count].hist(var)
+    axvec_flat[count].set_title(key)
+fig.delaxes(axvec_flat[-1])
 
 # %% [markdown] {"trusted": true}
 # ## Do a checkpoint save for all the variables
@@ -316,6 +324,7 @@ list(keep_dict.keys())
 
 # %%
 a=np.load(the_file)
+
 
 # %% [markdown] {"trusted": true}
 # \begin{align}
@@ -348,21 +357,124 @@ a=np.load(the_file)
 # ## What are the rms perturbation profiles?
 
 # %%
-len(zvals)
-
-
-# %%
 def plot_pert(ax,keep_dict,key):
+    """
+    make a quick horizontal rms vs. height plot of variable key in keep_dict
+    
+    Pararmeters
+    -----------
+    
+    ax: matplotlib axis
+    
+    keep_dict: dict
+      dictionary with variables
+        
+    key: string
+      name of variable to plot
+      
+    Returns
+    -------
+    
+    ax: matplotlib axis
+      same axis with plot
+    """
     the_var = (keep_dict[key]**2.).mean(axis=(1,2))
     ax.plot(the_var**0.5,keep_dict['z'],'r-')
     ax.set_title(key)
     
-fig, axes = plt.subplots(3,2,figsize=(10,10))
-flat_axes = axes.flat
+fig, axes = plt.subplots(4,2,figsize=(10,10),constrained_layout=True)
+flat_axes = list(axes.flat)
 for ax, varname in zip(flat_axes,the_vars):
     plot_pert(ax,keep_dict,varname)
+fig.delaxes(flat_axes[-1])
 
 
 
 # %%
-help(axes[0,0].plot)
+#help(axes[0,0].plot)
+
+# %% [markdown]
+# ## set scaling parameters q* and w* from rms values
+
+# %%
+#
+# take zi = 1500 m and find scaling variables
+#
+zi = 1500.
+hit = zvals < zi
+w_pert = (keep_dict['w_pert'][hit,:,:]**2.).mean(axis=(1,2))**0.5
+wstar = w_pert.mean()
+print(f"wstar={wstar}")
+q_pert = (keep_dict['qv_pert'][hit,:,:]**2.).mean(axis=(1,2))**0.5
+qstar = q_pert.mean()
+print(f"qstar={qstar*kg2g}")
+term_scale = wstar**2.*qstar/zi
+print(f"term_scale = {term_scale}")
+
+
+# %% [markdown]
+# ## Look at mean gradient terms in XI
+#
+# \begin{equation*}
+# \underbrace{\overline{u^\prime_{i} u^\prime_{j}} \frac{\partial \bar{q}}{\partial x_{j}}}_{XI}
+# \end{equation*}
+
+# %%
+def do_partial(keep_dict,varname,axis_val):
+    """
+    calculate partial deriv along axis_val using
+    simple differencing
+    
+    Paramteters
+    -----------
+    
+    keep_dict: dict
+       dictionary with variables
+       
+    varname: string
+       name of variable to differentiate
+       
+    axis_val: int
+       axis to di
+    """
+    axis_dict={0:'x',1:'y',2:'z'}
+    the_var = keep_dict[varname]
+    numerator = np.diff(the_var,axis=axis_val)
+    coord_var = axis_dict[axis_val]
+    denominator = np.diff(keep_dict[coord_var])
+    return numerator/denominator
+    
+
+
+# %%
+fig, ax = plt.subplots(1,1)
+ax.plot('qv_avg','z','b-',data=keep_dict)
+ax.set_title('average vertical qv profile');
+
+
+# %% [markdown]
+# ## Plot the three equations for term XI
+
+# %%
+def calc_middle(vector):
+    middle = (vector[1:] + vector[:-1])/2.
+    return middle
+
+def do_xi(keep_dict,hit):
+    qv=keep_dict['qv_avg'][hit]
+    z=keep_dict['z'][hit]
+    qvavg_grad = np.diff(qv)/np.diff(qv)
+    wperturb = keep_dict['w_pert'][hit,:,:]
+    uperturb = keep_dict['u_pert'][hit,:,:]
+    vperturb = keep_dict['v_pert'][hit,:,:]
+    w_flux = (wperturb.T*wperturb.T*qvavg_grad).mean(axis=(1,2))
+    u_flux = (uperturb.T*wperturb.T*qvavg_grad).mean(axis=(1,2))
+    v_flux = (vperturb.T*wperturb.T*qvavg_grad).mean(axis=(1,2))
+    return w_flux, v_flux, u_flux
+
+hit = keep_dict['z']< 1500
+w_flux, v_vlux, uflux = do_xi(keep_dict,hit)
+z_coord = calc_middle(keep_dict['z'][hit])
+fig,ax = plt.subplots(1,1,figsize=(10,10))
+ax.plot(w_flux,z_coord)
+    
