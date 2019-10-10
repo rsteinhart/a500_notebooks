@@ -12,6 +12,21 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: meta-9
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 #   latex_metadata:
 #     affiliation: University of British Columbia
 #     author: Philip Austin
@@ -295,5 +310,32 @@ np.savez_compressed(the_file,**keep_dict)
 
 # %%
 a=np.load(the_file)
+
+# %% [markdown] {"trusted": true}
+# \begin{align}
+# \frac{\partial(\overline{q^{\prime} u^\prime_i})}{\partial t}+
+# \underbrace{\bar{U_{j}} 
+# \frac{\partial(\overline{q^{\prime} u^\prime_{i}})}{\partial x_{j}}}_{II}
+# =-\underbrace{\overline{q^\prime u^\prime_j} \frac{\partial \bar{U}_{i}}{\partial x_{j}}}_{III}
+# -\underbrace{\overline{u^\prime_{i} u^\prime_{j}} \frac{\partial \bar{q}}{\partial x_{j}}}_{XI}
+# + \underbrace{\frac{\partial ( \overline{ q^{\prime} u^\prime_j u^\prime_i } ) }{\partial x_j}}_{IV}
+# \end{align}
+#
+# %
+#
+# %% [markdown] {"trusted": true}
+# \begin{align}
+# +\underbrace{\delta_{i 3}\left( \frac{\overline{\mathrm{q}^{\prime} \theta_{v}^{\prime}}}{\bar{\theta}_{v}}\right ) g}_V
+# + \underbrace{f_c \epsilon_{i j 3} \left ( \overline{u_j^\prime q^\prime} \right )}_{VI}
+# -  \left ( \frac{1}{\bar{\rho}}\right )
+# \left [ \underbrace { \frac{ \partial ( \overline{p^\prime q^\prime} ) } {\partial x_i}}_{VII} 
+# + \underbrace{ \overline{ p^\prime \frac{\partial q^\prime}{\partial x_i}} }_{VIII} \right ]
+# %\right ] }
+# \end{align}
+# %% [markdown] {"trusted": true}
+# \begin{align}
+# +\underbrace{\frac{v \partial^{2}(\overline{q^{\prime} u^\prime_i})}{\partial x_{j}^{2}}}_{IX}
+# -2 v \overline { \underbrace{\left ( \frac{\partial u_i^\prime }{ \partial x_j} \right ) \left ( \frac{\partial q^\prime} {\partial x_j} \right )}_{X} }
+# \end{align}
 
 # %%
