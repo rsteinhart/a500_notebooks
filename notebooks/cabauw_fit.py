@@ -99,10 +99,10 @@ fig.suptitle('{} hourly avg winds'.format(the_month));
 
 
 # %% [markdown]
-# # Fit the wind profiles to a modified log(z) function
+# # Fit the wind profiles to a modified log(z) function 
 
 # %% [markdown]
-# Follow [Verkaik and Holtslag, 2007](http://ezproxy.library.ubc.ca/login?url=http://link.springer.com/10.1007/s10546-006-9121-1) and fit the windspeed to a modified log profile using scipy.optimize.curve_fit
+# Follow [Verkaik and Holtslag, 2007](http://ezproxy.library.ubc.ca/login?url=http://link.springer.com/10.1007/s10546-006-9121-1) and fit the windspeed to a modified log profile using scipy.optimize.curve_fit (see their page 710 below equation 1)
 #
 # ```
 # S=a0 + a1*z + a2*z**2 + a3*np.log(z)
