@@ -56,6 +56,7 @@ from matplotlib import pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
 import a500
+import context
 
 from  a500.utils.data_read import download
 the_root="http://clouds.eos.ubc.ca/~phil/docs/atsc500/data/"
@@ -81,12 +82,12 @@ def make_theta(temp,press):
 # ### accumulate the vertical flux profile for each of the 10 ensemble members  into the avg_flux variable
 
 # %%
-case_name='case_60_10.nc'
+case_name= a500.data_dir / 'case_60_10.nc'
 #
 #  look at the first ensemble member
 #
 
-with Dataset(case_name,'r') as ncin:
+with Dataset(str(case_name),'r') as ncin:
     ensemble='c1'
     group = ncin.groups['c1']
     the_shape = group.variables['TABS'].shape

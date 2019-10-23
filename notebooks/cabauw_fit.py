@@ -1,6 +1,8 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: all
+#     notebook_metadata_filter: all,-language_info
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -10,11 +12,41 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: meta-9
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: false
+#     sideBar: false
+#     skip_h1_title: true
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: true
+#     toc_position: {}
+#     toc_section_display: false
+#     toc_window_display: false
 # ---
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc" style="margin-top: 1em;"><ul class="toc-item"><li><span><a href="#Fit-the-wind-profiles-to-a-modified-log(z)-function" data-toc-modified-id="Fit-the-wind-profiles-to-a-modified-log(z)-function-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Fit the wind profiles to a modified log(z) function</a></span><ul class="toc-item"><li><span><a href="#2am-UTC" data-toc-modified-id="2am-UTC-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>2am UTC</a></span></li><li><span><a href="#Buoyancy-flux-and-L" data-toc-modified-id="Buoyancy-flux-and-L-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Buoyancy flux and L</a></span></li></ul></li><li><span><a href="#check-the-u-profile-at-20-and-80-meters" data-toc-modified-id="check-the-u-profile-at-20-and-80-meters-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>check the u profile at 20 and 80 meters</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#2am-UTC" data-toc-modified-id="2am-UTC-1">2am UTC</a></span></li><li><span><a href="#Q1-2:00-UTC----fill-in-the-the-cell-above-to-plot-the-curve-fit-on-top-of-the-hourly-average" data-toc-modified-id="Q1-2:00-UTC----fill-in-the-the-cell-above-to-plot-the-curve-fit-on-top-of-the-hourly-average-2">Q1 2:00 UTC -- fill in the the cell above to plot the curve fit on top of the hourly average</a></span></li><li><span><a href="#Q2--repeat-this-for-10:00--UTC-above" data-toc-modified-id="Q2--repeat-this-for-10:00--UTC-above-3">Q2  repeat this for 10:00  UTC above</a></span></li><li><span><a href="#Q3:-repeat-this-for-14:00--UTC-above" data-toc-modified-id="Q3:-repeat-this-for-14:00--UTC-above-4">Q3: repeat this for 14:00  UTC above</a></span></li><li><span><a href="#Buoyancy-flux-and-L" data-toc-modified-id="Buoyancy-flux-and-L-5">Buoyancy flux and L</a></span></li></ul></div>
+
+# %% [markdown]
+# # Replace my month with yours and fill in the curve fits for 2am, 10am and 2pm
 
 # %%
 import glob
@@ -123,14 +155,15 @@ test=hourly_wind_avg[day,hour1,::-1]
 #
 test=test[1:]
 
+# %% [markdown]
+# ## Q1 2:00 UTC -- fill in the the cell above to plot the curve fit on top of the hourly average
 
-
-initial_guess=[0,0,0,0]
-pars, pcov = curve_fit(wind_func, rev_z, test, p0=initial_guess)
-zinterp=np.linspace(10.,200,50.)
-speed_interp=wind_func(zinterp,*pars)
-ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
-print(f'fit coefficients {pars}')
+# %%
+#
+# use curve fit to find the interpolated wind speed and plot it
+#
+#ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
+#print(f'fit coefficients {pars}')
 
 # %%
 # 10 UTC
@@ -155,14 +188,10 @@ rev_z=rev_z[1:]
 test=hourly_wind_avg[day,hour2,::-1]
 test=test[1:]
 
-initial_guess=[0,0,0,0]
-pars, pcov = curve_fit(wind_func, rev_z, test, p0=initial_guess)
-initial_guess
-pars
-zinterp=np.linspace(10.,200,50.)
-speed_interp=wind_func(zinterp,*pars)
-ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
-print(f'fit coefficients {pars}')
+
+
+# %% [markdown]
+# ## Q2  repeat this for 10:00  UTC above
 
 # %%
 # 14 UTC
@@ -188,14 +217,8 @@ rev_z=rev_z[1:]
 test=hourly_wind_avg[day,hour3,::-1]
 test=test[1:]
 
-initial_guess=[0,0,0,0]
-pars, pcov = curve_fit(wind_func, rev_z, test, p0=initial_guess)
-initial_guess
-pars
-zinterp=np.linspace(10.,200,50.)
-speed_interp=wind_func(zinterp,*pars)
-ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
-print(f'fit coefficients {pars}')
+# %% [markdown] {"trusted": true}
+# ## Q3: repeat this for 14:00  UTC above
 
 # %% [markdown]
 # # calculate L
@@ -243,118 +266,5 @@ fig.autofmt_xdate()
 ax.plot(timevec,L.flatten())
 title='Obukhov length L {}'.format(the_month)
 out=ax.set(title=title,ylabel='L $(m)$',ylim=[-150,150])
-
-# %% [markdown]
-# # check the u profile at 20 and 80 meters
-
-# %%
-# get indexes for z = 20 m and z = 80 m
-level_80 = np.where(z == 80)[0][0]
-level_20 = np.where(z == 20)[0][0]
-
-# helper functions for calculating phis
-def find_gradient(hourly_wind_avg, z, day, hour, level):
-    "Function to quickly calculate dUdz for a certain hour and level"
-    "Uses 'forward euler' to numerically calculate gradient"
-    
-    return (hourly_wind_avg[day,hour,level] - hourly_wind_avg[day,hour,level+1])/(z[level] - z[level+1])
-
-def find_scaling(hourly_wind_avg, z, L, ustars, day, hour, level):
-    """Calculate phi and zeta at a given level and time"""
-    
-    k = 0.40
-    height = z[level]
-    ustar = ustars[day, hour, level]
-    dUdz = find_gradient(hourly_wind_avg, z, day, hour, level)
-    phi = (k*height/ustar)*dUdz
-    zeta = z[level]/L[day, hour, level]
-    return phi,zeta
-
-def dyer(zeta):
-    'calculate curve from Dyer equations (Surface layer similarity 18 + 19)'
-    #gradient_fit = (zeta**(1))*(coeffs[0] + 2*coeffs[1]*zeta + coeffs[2]*1/zeta) # derivative, dU/dz as estimated from Nieuwstadt (1984)
-    gamma_1 =16
-    beta = 5
-    if zeta < 0:
-        # unstable
-        phi_dyer = (1 - gamma_1*zeta)**(-1/4)
-    else:
-        phi_dyer = 1 + beta*zeta
-    return phi_dyer
-
-def fit_dyer(zetas, *coeffs):
-    'calculate curve from Dyer equations (Surface layer similarity 18 + 19)'
-    #gradient_fit = (zeta**(1))*(coeffs[0] + 2*coeffs[1]*zeta + coeffs[2]*1/zeta) # derivative, dU/dz as estimated from Nieuwstadt (1984)
-    phi_dyers = []
-    for zeta in zetas:
-        if zeta < 0:
-            # unstable
-            phi_dyer = (1 - coeffs[0]*zeta)**(-1/4)
-        else:
-            phi_dyer = 1 + coeffs[1]*zeta
-        phi_dyers.append(phi_dyer)
-    return phi_dyers
-
-
-
-# %%
-# calculate and plot cabauw data with the Dyer equations + fit
-hours = [hour1,hour2,hour3]
-levels = [level_80, level_20]
-
-phi_len = len(hours)*len(levels)
-phis = np.empty([phi_len])
-zetas = np.empty([phi_len])
-
-phis80 = []
-zetas80 = []
-phis20 = []
-zetas20 = []
-
-# calculate phi from data
-for hour in hours:
-    for level in levels:
-        phi,zeta = find_scaling(hourly_wind_avg, z, L, USTAR, day, hour, level)
-        if level==levels[0]:
-            phis80.append(phi)
-            zetas80.append(zeta)
-        else:
-            phis20.append(phi)
-            zetas20.append(zeta)
-
-fig,ax=plt.subplots(1,2,figsize=(10,6))
-fig.suptitle(r"$\phi_m\ vs.\ \zeta\ for\ day\ {}$".format(day,hour3),fontsize=20)
-ax[0].plot(zetas80, phis80, '.b',label='cabauw')
-ax[1].plot(zetas20, phis20, '.g',label='cabauw')
-ax[0].set(xlabel=r'$\zeta$',ylabel=r'$\phi_m$',title='z = {} m'.format(z[levels[0]]))
-ax[1].set(xlabel=r'$\zeta$',ylabel=r'$\phi_m$',title='z = {} m'.format(z[levels[1]]))
-
-# calculate Dyer values for phi
-dyer_zetas80 = np.arange(min(zetas80),max(zetas80),0.001)
-dyer_zetas20 = np.arange(min(zetas20),max(zetas80),0.001)
-
-phis_dyer80 = [dyer(dyer_zeta80) for dyer_zeta80 in dyer_zetas80]   
-phis_dyer20 = [dyer(dyer_zeta20) for dyer_zeta20 in dyer_zetas20] 
-
-ax[0].plot(dyer_zetas80, phis_dyer80 , '-m',label='dyer')
-ax[1].plot(dyer_zetas20, phis_dyer20, '-m',label='dyer')
-
-# fit curve for z = 80 m
-initial_guess=[0,0]
-pars80, pcov80 = curve_fit(fit_dyer, zetas80, phis80, p0=initial_guess)
-zetainterp=np.linspace(min(zetas80),max(zetas80),50.)
-grad_interp=fit_dyer(zetainterp,*pars80)
-fit80=ax[0].plot(zetainterp,grad_interp,'c--',alpha=0.5,label='fit')
-
-# fit curve for z = 20 m
-initial_guess=[0,0]
-pars20, pcov20 = curve_fit(fit_dyer, zetas20, phis20, p0=initial_guess)
-zetainterp=np.linspace(min(zetas20),max(zetas20),50.)
-grad_interp=fit_dyer(zetainterp,*pars20)
-fit20=ax[1].plot(zetainterp,grad_interp,'c--',alpha=0.5,label='fit')
-
-ax[0].legend(loc='best')
-ax[1].legend(loc='best')
-
 
 # %%

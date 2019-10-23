@@ -135,7 +135,7 @@ def make_theta(temp,press):
     theta=temp*(p0/press)**(Rd/cpd)
     return theta
 
-case_name='case_60_10.nc'
+case_name= a500.data_dir / 'case_60_10.nc'
 #
 #  look at the first ensemble member
 #

@@ -43,7 +43,6 @@ def dthdt(theta, t, zf, zh, l, Fth0):
     dbdz = (g/thetaref)*dthdz
     dbdz[dbdz>0] = 0
     K = l**2.*np.sqrt(-16*dbdz)
-    print(K)
     Fth[1:-1] = -K*dthdz
     Fth[0] = Fth0
     Fth[-1] = 0
@@ -88,7 +87,7 @@ def dthdt(theta, t, zf, zh, l, Fth0):
 
  the_prof=integrate.odeint(dthdt, thetai, tspan,(zf, zh, l, Fth0))
  import pdb
- pdb.set_trace()
+ #pdb.set_trace()
  plt.close('all')
  fig,ax = plt.subplots(1,1,figsize=(8,8))
  for item in the_prof:

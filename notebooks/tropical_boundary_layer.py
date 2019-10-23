@@ -312,7 +312,7 @@ ax.set(xlabel=r'latent heat flux (W/m^2)',ylabel=r'sensible heat flux (W m^2)')
 # %%
 def tryme(a=5,b=6):
     print(a,b)
-the_dict={'a':7,'bb':10}
+the_dict={'a':7,'b':10}
 tryme(**the_dict)
 
 # %% {"scrolled": false}
