@@ -126,6 +126,7 @@ ax.grid(True,which='both')
 # # does the height grow as $\sqrt{time}?$
 
 # %%
+plt.show()
 np.seterr(divide='ignore')
 m2km=1.e-3
 fig2, ax2=plt.subplots(1,1,figsize=(10,10))

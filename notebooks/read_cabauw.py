@@ -54,7 +54,7 @@
 # ```
 #
 
-# %% [markdown] {"trusted": false}
+# %% [markdown]
 # ###turn this cell from markdown to python to run this import
 #
 # import sys
@@ -287,6 +287,7 @@ for the_month in month_dict.keys():
 
 # %%
 from matplotlib import pyplot as plt
+plt.show()
 plt.style.use('ggplot')
 print('starting: ',month_dict.keys())    
 for the_month in month_dict.keys():
