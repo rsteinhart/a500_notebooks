@@ -1,0 +1,28 @@
+{
+    "week 2": [
+        "dry_les",
+        "tropical_boundary_layer",
+    ],
+    "week 3": [
+        "flux_profiles"
+        "hydrostatic",
+        "hydrostatic_column_vapor"
+    ],
+    "week 5": [
+        "kinematic_flux",
+        "simple_integrator",
+    ],
+    "week 6": [
+        "mixed_layer",
+        "save_trop",
+    ],
+    "week 7": [
+        "spline_profiles",
+        "read_cabauw",
+    ],
+    "week 8": [
+        "a500_stull_ch6",
+        "cabauw_fit",
+        "bussinger_dyer"
+    ]
+}
