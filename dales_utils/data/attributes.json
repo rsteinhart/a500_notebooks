@@ -1,0 +1,28 @@
+{
+    "global_attrs": {
+        "dimensions": {
+            "zt": {
+                "size": 128,
+                "attrs": {
+                    "zt": {
+                        "dtype": "dtype('float32')",
+                        "var_attrs": {
+                            "longname": "'Vertical displacement of cell centers'",
+                            "units": "'m'"
+                        }
+                    }
+                }
+            }
+        },
+        "attributes": {
+            "title": "'profiles.001.nc'",
+            "history": "'Tue Oct 29 11:05:20 2019: ncks -v zt profiles.001.nc -o zt.nc\\nCreated on 20191027 at 210459.376'",
+            "Source": "'DALES 4.2'",
+            "Author": "''",
+            "NCO": "'netCDF Operators version 4.8.1 (Homepage = http://nco.sf.net, Code = http://github.com/nco/nco)'"
+        }
+    },
+    "group_attrs": {
+        "root": {}
+    }
+}
