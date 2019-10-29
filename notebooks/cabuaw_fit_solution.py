@@ -43,7 +43,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#read-in-the-july-2014-profiles" data-toc-modified-id="read-in-the-july-2014-profiles-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>read in the july 2014 profiles</a></span></li><li><span><a href="#calculate-hourly-averages" data-toc-modified-id="calculate-hourly-averages-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>calculate hourly averages</a></span></li><li><span><a href="#calculate-monthly-averages" data-toc-modified-id="calculate-monthly-averages-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>calculate monthly averages</a></span></li><li><span><a href="#Fit-the-wind-profiles-to-a-modified-log(z)-function" data-toc-modified-id="Fit-the-wind-profiles-to-a-modified-log(z)-function-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Fit the wind profiles to a modified log(z) function</a></span><ul class="toc-item"><li><span><a href="#2am-UTC------most-stable" data-toc-modified-id="2am-UTC------most-stable-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>2am UTC   -- most stable</a></span></li><li><span><a href="#10am-July-19----convection-starting" data-toc-modified-id="10am-July-19----convection-starting-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>10am July 19 -- convection starting</a></span></li></ul></li><li><span><a href="#calculate-L" data-toc-modified-id="calculate-L-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>calculate L</a></span><ul class="toc-item"><li><span><a href="#Buoyancy-flux-and-L" data-toc-modified-id="Buoyancy-flux-and-L-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Buoyancy flux and L</a></span></li></ul></li><li><span><a href="#check-the-u-profile-at-20-and-80-meters" data-toc-modified-id="check-the-u-profile-at-20-and-80-meters-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>check the u profile at 20 and 80 meters</a></span><ul class="toc-item"><li><span><a href="#the-measurements" data-toc-modified-id="the-measurements-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>the measurements</a></span></li><li><span><a href="#The-B-Dyer-fits" data-toc-modified-id="The-B-Dyer-fits-6.2"><span class="toc-item-num">6.2&nbsp;&nbsp;</span>The B-Dyer fits</a></span></li></ul></li><li><span><a href="#Plot-these" data-toc-modified-id="Plot-these-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Plot these</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#read-in-the-july-2014-profiles" data-toc-modified-id="read-in-the-july-2014-profiles-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>read in the july 2014 profiles</a></span></li><li><span><a href="#calculate-hourly-averages" data-toc-modified-id="calculate-hourly-averages-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>calculate hourly averages</a></span></li><li><span><a href="#calculate-monthly-averages" data-toc-modified-id="calculate-monthly-averages-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>calculate monthly averages</a></span></li><li><span><a href="#Fit-the-wind-profiles-to-a-modified-log(z)-function" data-toc-modified-id="Fit-the-wind-profiles-to-a-modified-log(z)-function-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Fit the wind profiles to a modified log(z) function</a></span><ul class="toc-item"><li><span><a href="#2am-UTC------most-stable" data-toc-modified-id="2am-UTC------most-stable-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>2am UTC   -- most stable</a></span></li><li><span><a href="#10am-----convection-starting" data-toc-modified-id="10am-----convection-starting-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>10am  -- convection starting</a></span></li></ul></li><li><span><a href="#calculate-L" data-toc-modified-id="calculate-L-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>calculate L</a></span><ul class="toc-item"><li><span><a href="#Buoyancy-flux-and-L" data-toc-modified-id="Buoyancy-flux-and-L-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Buoyancy flux and L</a></span></li></ul></li><li><span><a href="#check-the-u-profile-at-20-and-80-meters" data-toc-modified-id="check-the-u-profile-at-20-and-80-meters-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>check the u profile at 20 and 80 meters</a></span><ul class="toc-item"><li><span><a href="#the-measurements" data-toc-modified-id="the-measurements-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>the measurements</a></span></li><li><span><a href="#The-B-Dyer-fits" data-toc-modified-id="The-B-Dyer-fits-6.2"><span class="toc-item-num">6.2&nbsp;&nbsp;</span>The B-Dyer fits</a></span></li></ul></li><li><span><a href="#Plot-these" data-toc-modified-id="Plot-these-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Plot these</a></span></li></ul></div>
 
 # %%
 import glob
@@ -178,72 +178,55 @@ ax[1].plot(term123,zinterp,label='term123')
 ax[1].legend();
 
 # %% [markdown]
-# ## 10am July 19 -- convection starting
+# ## 10am  -- convection starting
 
 # %%
 # 10 UTC
 hour2=10 # later morning
 fig,ax=plt.subplots(1,3,figsize=(10,6))
-fig.suptitle('U profiles for day {} at {} UTC'.format(day,hour2))
-sample2=jul_speed[day,hour2,:,:]
-ax[0].plot(sample2.T,z)
-ax[0].set(title='6 10 minute samples',xlabel='wind speed (m/s)',
-         ylabel='height (m)')
-ax[1].plot(hourly_wind_avg[day,hour2,:],z)
-ax[1].set(title='hourly average')
-ax[2].plot(hourly_wind_avg[day,hour2,:],z)
-ax[2].set(title='hourly average plus interpolated values')
-#
-# flip tower data so it goes from bottom to top
-# and get rid of the lowest level, which doesn't
-# have a measurement
-#
-rev_z=z[::-1]
-rev_z=rev_z[1:]
-test=hourly_wind_avg[day,hour2,::-1]
-test=test[1:]
+fig.suptitle(f'U profiles for  at {hour2} UTC')
 
+test=monthly_wind_avg[hour2,::-1]
+#
+# lose the bottom value
+#
+test=test[1:]
 initial_guess=[0,0,0,0]
 pars, pcov = curve_fit(wind_func, rev_z, test, p0=initial_guess)
-initial_guess
-pars
 zinterp=np.linspace(10.,200,50.)
 speed_interp=wind_func(zinterp,*pars)
-ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
+ax[0].plot(speed_interp,zinterp,'ro',alpha=0.5)
 print(f'fit coefficients {pars}')
+fit, term1, term12, term123 = wind_terms(zinterp, *pars)
+ax[1].plot(fit,zinterp,'ro',alpha=0.8,label='fullfit')
+ax[1].plot(term1,zinterp,label='term1')
+ax[1].plot(term12,zinterp,label='term12')
+ax[1].plot(term123,zinterp,label='term123')
+ax[1].legend();
 
 # %%
 # 14 UTC
 hour3=14 # afternoon
-fig,ax=plt.subplots(1,3,figsize=(10,6))
-fig.suptitle('U profiles for day {} at {} UTC'.format(day,hour3))
-sample3=jul_speed[day,hour3,:,:]
-ax[0].plot(sample3.T,z)
-ax[0].set(title='6 10 minute samples',xlabel='wind speed (m/s)',
-         ylabel='height (m)')
-ax[1].plot(hourly_wind_avg[day,hour3,:],z)
-ax[1].set(title='hourly average')
-ax[2].plot(hourly_wind_avg[day,hour3,:],z)
-ax[2].set(title='hourly average plus interpolated values')
+fig,ax=plt.subplots(1,2,figsize=(10,6))
+fig.suptitle(f'U profiles July at {hour3} UTC')
+test=monthly_wind_avg[hour3,::-1]
 #
-# flip tower data so it goes from bottom to top
-# and get rid of the lowest level, which doesn't
-# have a measurement
+# lose the bottom value
 #
-rev_z=z[::-1]
-rev_z=rev_z[1:]
-
-test=hourly_wind_avg[day,hour3,::-1]
 test=test[1:]
-
 initial_guess=[0,0,0,0]
 pars, pcov = curve_fit(wind_func, rev_z, test, p0=initial_guess)
-initial_guess
-pars
 zinterp=np.linspace(10.,200,50.)
 speed_interp=wind_func(zinterp,*pars)
-ax[2].plot(speed_interp,zinterp,'ro',alpha=0.5)
+ax[0].plot(speed_interp,zinterp,'ro',alpha=0.5)
 print(f'fit coefficients {pars}')
+fit, term1, term12, term123 = wind_terms(zinterp, *pars)
+ax[1].plot(fit,zinterp,'ro',alpha=0.8,label='fullfit')
+ax[1].plot(term1,zinterp,label='term1')
+ax[1].plot(term12,zinterp,label='term12')
+ax[1].plot(term123,zinterp,label='term123')
+ax[1].legend();
+
 
 # %% [markdown]
 # # calculate L
@@ -376,6 +359,10 @@ def fit_dyer(zetas, *coeffs):
 
 # %%
 # calculate and plot cabauw data with the Dyer equations + fit
+level_80 = np.where(z == 80)[0][0]
+level_20 = np.where(z == 20)[0][0]
+day = 19
+
 hour1, hour2, hour3 = 2, 10, 14
 hours = [hour1,hour2,hour3]
 levels = [level_80, level_20]
