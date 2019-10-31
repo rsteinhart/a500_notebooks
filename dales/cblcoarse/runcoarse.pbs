@@ -1,0 +1,7 @@
+#PBS -N cblcoars
+#PBS -q smp
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=1:00:00
+#PBS -j oe
+cd /scratch/paustin/paustin/cblcoarse
+mpiexec --hostfile $PBS_NODEFILE -n 2 dales_standard

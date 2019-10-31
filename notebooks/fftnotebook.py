@@ -182,7 +182,7 @@ print('simple cosine: Power spectrum sum %10.3f\n' % (np.sum(Power)/totsize**2.)
 download('miami_tower.npz',root='http://clouds.eos.ubc.ca/~phil/docs/atsc500/data',
         dest_folder = context.data_dir )
 td=np.load(context.data_dir / 'miami_tower.npz') #load temp, uvel, vvel, wvel, minutes
-print('keys: ',td.keys())
+print('keys: ',list(td.keys()))
 print(td['description'])
 
 
