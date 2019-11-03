@@ -44,7 +44,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span><ul class="toc-item"><li><span><a href="#A-simple-transform" data-toc-modified-id="A-simple-transform-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>A simple transform</a></span></li><li><span><a href="#Power-spectrum-of-turbulent-vertical-velocity" data-toc-modified-id="Power-spectrum-of-turbulent-vertical-velocity-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Power spectrum of turbulent vertical velocity</a></span></li><li><span><a href="#power-spectrum-layout" data-toc-modified-id="power-spectrum-layout-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>power spectrum layout</a></span><ul class="toc-item"><li><span><a href="#Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f" data-toc-modified-id="Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f-1.3.1"><span class="toc-item-num">1.3.1&nbsp;&nbsp;</span>Confirm that the fft at negative f is the complex conjugate of the fft at positive f</a></span></li></ul></li><li><span><a href="#Windowing" data-toc-modified-id="Windowing-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Windowing</a></span></li><li><span><a href="#Compare-power-spectra-for-wvel,-theta,-sensible-heat-flux" data-toc-modified-id="Compare-power-spectra-for-wvel,-theta,-sensible-heat-flux-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Compare power spectra for wvel, theta, sensible heat flux</a></span><ul class="toc-item"><li><span><a href="#start-with-wvel" data-toc-modified-id="start-with-wvel-1.5.1"><span class="toc-item-num">1.5.1&nbsp;&nbsp;</span>start with wvel</a></span></li></ul></li><li><span><a href="#Filtering" data-toc-modified-id="Filtering-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Filtering</a></span></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span><ul class="toc-item"><li><span><a href="#A-simple-transform" data-toc-modified-id="A-simple-transform-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>A simple transform</a></span></li><li><span><a href="#Power-spectrum-of-turbulent-vertical-velocity" data-toc-modified-id="Power-spectrum-of-turbulent-vertical-velocity-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Power spectrum of turbulent vertical velocity</a></span></li><li><span><a href="#power-spectrum-layout" data-toc-modified-id="power-spectrum-layout-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>power spectrum layout</a></span><ul class="toc-item"><li><span><a href="#Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f" data-toc-modified-id="Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f-1.3.1"><span class="toc-item-num">1.3.1&nbsp;&nbsp;</span>Confirm that the fft at negative f is the complex conjugate of the fft at positive f</a></span></li></ul></li><li><span><a href="#Windowing" data-toc-modified-id="Windowing-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Windowing</a></span></li><li><span><a href="#Compare-power-spectra-for-wvel,-theta,-sensible-heat-flux" data-toc-modified-id="Compare-power-spectra-for-wvel,-theta,-sensible-heat-flux-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Compare power spectra for wvel, theta, sensible heat flux</a></span><ul class="toc-item"><li><span><a href="#start-with-wvel" data-toc-modified-id="start-with-wvel-1.5.1"><span class="toc-item-num">1.5.1&nbsp;&nbsp;</span>start with wvel</a></span></li></ul></li><li><span><a href="#Filtering" data-toc-modified-id="Filtering-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Filtering</a></span></li><li><span><a href="#Filter-Summary" data-toc-modified-id="Filter-Summary-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Filter Summary</a></span></li></ul></li></ul></div>
 
 # %%
 import numpy as np
@@ -390,7 +390,7 @@ thefft=np.fft.fft(wvel)
 totsize=len(thefft)
 samprate=20.8333 #Hz
 the_time=np.arange(0,totsize,1/20.8333)
-freq_bin_width=samprate/(totsize*2)
+freq_bin_width=samprate/(totsize)
 half_hz_index=int(np.floor(0.5/freq_bin_width))
 filter_func=np.zeros_like(thefft,dtype=np.float64)
 filter_func[0:half_hz_index]=1.
@@ -402,5 +402,46 @@ ax.plot(the_time[:numpoints],filtered_wvel[:numpoints],label='filtered')
 ax.plot(the_time[:numpoints],wvel[:numpoints],'g+',label='data')
 ax.set(xlabel='time (seconds)',ylabel='wvel (m/s)')
 out=ax.legend()
+print(half_hz_index)
+
+# %%
+totsize
+binwidth=20.8333/36000
+0.5/binwidth
+
+# %% [markdown] {"trusted": true}
+# ## Filter Summary
+#
+# To filter this time series I did the following:
+#
+#
+# 1. Remove the mean velocity from the time series
+#
+# 1. Figure frequency resoluiton for the timeseries -- I know that I've sampled at
+#    20.833 Hz with 36000 values, so the frequency resolution of the fft is going
+#    to be 20.833/36000 - 5.78e-4 Hz/bin
+#    
+# 1. Find the bin in the fft that represents 0.5 Hz. Recall the top of this notebook, where to review:
+#
+#        We have 100 bins, and an instrument that samples at 5 times a second
+#        so we know that the frequency bin width is 5/100 = 0.05 Hz/bin, and the
+#        bin containing the 1 Hz frequency value is bin 1/0.05 = bin 20.
+#        
+#    So apply the same procedure here
+#    
+#        We have 36000 bins, and an instrument that samples at 20.833 times a second
+#        so we know that the frequency bin width is 20.833/36000 = 5.78e-4 Hz/bin, and the
+#        bin containing the 0.5 Hz frequency value is bin 0.5/5.78e-4 = half_hz_index = 864
+#        
+# 1. Zero out all fft bins in the range higher than this, by setting the central part of the
+#    fft = 0:
+#    
+#        filter_func[half_hz_index:-half_hz_index]=0.
+#    
+#    My code above does the inverse of this, setting the appropriate bins to 1 instead -- convince yourself that
+#    it gives the same answer. 
+#    
+# 1. Multipy the filter function x fft and invert to get the filtered timeseries
+#
 
 # %%

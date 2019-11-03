@@ -43,7 +43,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span></li><li><span><a href="#Designing-a-filter" data-toc-modified-id="Designing-a-filter-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Designing a filter</a></span></li></ul></li></ul></div>
 
 # %% [markdown] {"collapsed": true}
 # # 2D histogram of the optical depth $\tau$
@@ -252,5 +252,18 @@ if do_avg:
 
 # %%
 output.graph_spectrum(kol_offset=2000.,title='Landsat {} power spectrum'.format(output.filename))
+
+# %%
+2/0.0195
+
+# %% [markdown] {"trusted": true}
+# ## Designing a filter
+#
+# We've got a very similar situation to the fftnotebook.py example, except that rather than oscilating in time for a fixed
+# location, our Fourier modes are oscillating in space for a fixed time. For spatial oscilations, the equivalent of the frequency
+# in units of 1/time is the wavenumber, in units of 1/length. Instead of sampling 20.833 time per second, we are
+# sampling 1000./25 = 40 times per kilometer, i.e our wavenumber sampling rate is 40 $km^{-1}$.  What is the bin resolution
+# of our sample?  We have 2048 bins in each direction, so each bin represents 40/2048 = 0.0195 $km^{-1}$.  Suppose we want to
+# filter out all wavenumbers greater than 1/(0.5 km) = 2 $km^{-1}$?  The bin we need to use in our slice is bin 2/0.0195 = index 102 
 
 # %%
