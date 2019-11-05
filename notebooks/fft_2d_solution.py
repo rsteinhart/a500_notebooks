@@ -43,7 +43,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span><ul class="toc-item"><li><span><a href="#Call-the-function-to-calculate-the-power-spectrum" data-toc-modified-id="Call-the-function-to-calculate-the-power-spectrum-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Call the function to calculate the power spectrum</a></span></li></ul></li><li><span><a href="#Designing-a-filter" data-toc-modified-id="Designing-a-filter-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Designing a filter</a></span></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span><ul class="toc-item"><li><span><a href="#Call-the-function-to-calculate-the-power-spectrum" data-toc-modified-id="Call-the-function-to-calculate-the-power-spectrum-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Call the function to calculate the power spectrum</a></span></li></ul></li><li><span><a href="#Designing-a-filter" data-toc-modified-id="Designing-a-filter-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Designing a filter</a></span></li><li><span><a href="#First-step" data-toc-modified-id="First-step-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>First step</a></span></li><li><span><a href="#Now-do-this-right" data-toc-modified-id="Now-do-this-right-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Now do this right</a></span></li></ul></li></ul></div>
 
 # %% [markdown] {"collapsed": true}
 # # 2D histogram of the optical depth $\tau$
@@ -58,6 +58,7 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings("ignore",category=FutureWarning)
 import context
+import pdb
 
 # %%
 from matplotlib import pyplot as plt
@@ -147,7 +148,7 @@ class ubc_fft:
         if data.shape[0] != data.shape[1]:
             raise ValueError('expecting square matrix')
         self.xdim = data.shape[0]     # size of each row of the array
-        delta_k = 1./self.scale                # 1./km (1/0.025 for landsat 25 meter pixels)
+        delta_k = 1./scale                # 1./km (1/0.025 for landsat 25 meter pixels)
         self.nyquist = delta_k * 0.5
         self.midpoint = int(math.floor(self.xdim/2))
         k_vals = np.arange(0,(self.midpoint))+1
@@ -180,35 +181,12 @@ def power_spectrum(fft_obj):
     #
     fft_shift = fft.fftshift(fft_obj.fft_data)
     spectral_dens = fft_shift*np.conjugate(fft_shift)/(fft_obj.xdim*fft_obj.xdim)
-    spectral_dens = spectral_dens.real
-    #
-    # dimensional wavenumbers for 2dim spectrum  (need only the kx
-    # dimensional since image is square
-    #
-    
+    spectral_dens = spectral_dens.real   
     return spectral_dens
 
     
     
-def graph_spectrum(knum, avg_spec, kol_slope=-5./3., kol_offset=1., \
-                   scale=0.025,title=None):
-    """
-       graph the annular average and compare it to Kolmogorov -5/3
-    """
-    
-    delta_k = 1./scale                # 1./km (1/0.025 for landsat 25 meter pixels)
-    nyquist = delta_k * 0.5
-   
-    #
-    # draw the -5/3 line through a give spot
-    #
-    kol = kol_offset*(knum**kol_slope)
-    fig,ax=plt.subplots(1,1,figsize=(8,8))
-    ax.loglog(knum,avg_spec,'r-',label='power')
-    ax.loglog(knum,kol,'k-',label="$k^{-5/3}$")
-    ax.set(title=title,xlabel='k (1/km)',ylabel='$E_k$')
-    ax.legend()
-    return ax
+
 
 @jit(nopython=True)
 def annular_avg(spectral_dens,avg_binwidth):
@@ -216,6 +194,24 @@ def annular_avg(spectral_dens,avg_binwidth):
      integrate the 2-d power spectrum around a series of rings 
      of radius kradial and average into a set of 1-dimensional
      radial bins
+     
+     Parameters
+     ----------
+     
+     spectral_dens: ndarray
+        unshifted 2-d power spectrum (small wavenumbers on edges)
+     avg_binwidth: float
+         width of spectral bins to average over
+         
+     Returns
+     -------
+     
+     k_bins: float vector
+       vector of bin numbers
+       
+     avg_spec: float vector
+       average value value of power spectrum in each bin
+
     """
     #
     #  define the k axis which is the radius in the 2-d polar version of E
@@ -246,7 +242,7 @@ def annular_avg(spectral_dens,avg_binwidth):
     k_bins=np.arange(numbins)+1
     k_bins = k_bins[0:midpoint]
     avg_spec = avg_spec[0:midpoint]
-    return avg_spec
+    return k_bins, avg_spec
 
         
 
@@ -267,23 +263,36 @@ divider = make_axes_locatable(ax)
 cax = divider.append_axes("bottom", size="5%", pad=0.35)
 out=fig.colorbar(im0,orientation='horizontal',cax=cax)
 
+
+# %%
+def graph_spectrum(ax,knum, avg_spec, kol_slope=-5./3., kol_offset=1.):
+    """
+       graph the annular average and compare it to Kolmogorov -5/3
+    """
+   
+    #
+    # draw the -5/3 line through a give spot
+    #
+    kol = kol_offset*(knum**kol_slope)
+    ax.loglog(knum,avg_spec,'r-',label='power')
+    ax.loglog(knum,kol,'k-',label="$k^{-5/3}$")
+    #pdb.set_trace()
+    return ax
+
+
 # %%
 avg_binwidth=5  #make the kradial bins 5 pixels wide
-xdim = the_fft.xdim
-nyquist = the_fft.nyquist
-midpoint=int(math.floor(xdim/2))
-numbins = int(round((math.sqrt(2)*xdim/avg_binwidth),0)+1)
-k_bins=np.arange(numbins)+1
-k_bins = k_bins[0:midpoint]
+k_bins, avg_spec = annular_avg(spectral_dens,avg_binwidth)
 #
 # turn the bin numbers into wave numbers for the positive wavenumbs
 #
-knum = k_bins * (nyquist/float(len(k_bins)))# k = w/(25m)
-avg_spec = annular_avg(the_fft.spectral_dens,avg_binwidth)
-avg_spec = avg_spec[0:midpoint]
+knum = k_bins * (the_fft.nyquist/float(len(k_bins)))# k = w/(25m)
 
-the_ax=graph_spectrum(knum, avg_spec,avg_binwidth,kol_offset=2000.,
-                      title='Landsat {} power spectrum'.format(the_fft.filename))
+fig,ax=plt.subplots(1,1,figsize=(8,8))
+the_ax=graph_spectrum(ax, knum, avg_spec,kol_slope= -5/3.,kol_offset=2000.)
+title=f'Landsat {the_fft.filename} power spectrum'
+ax.set(title=title,xlabel='k (1/km)',ylabel='$E_k$')
+ax.legend()
 
 # %% [markdown] {"trusted": true}
 # ## Designing a filter
@@ -315,6 +324,12 @@ cax = divider.append_axes("bottom", size="5%", pad=0.35)
 out=fig.colorbar(im1,orientation='horizontal',cax=cax)
 
 
+# %% [markdown]
+# ## First step
+#
+# Try just zeroing out all the small wavenumbers in an interior
+# rectangle and see what happens
+
 # %%
 np.seterr(all='ignore')
 the_filter = np.zeros_like(plot_fft)
@@ -340,6 +355,11 @@ divider = make_axes_locatable(ax2[1])
 cax = divider.append_axes("bottom", size="5%", pad=0.35)
 out=fig.colorbar(im1,orientation='horizontal',cax=cax)
 
+
+# %% [markdown]
+# ## Now do this right
+#
+# Make the filter circular to get the correct wavenumbers 
 
 # %%
 @jit(nopython=True) 
