@@ -44,7 +44,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Power-spectrum-of-turbulent-vertical-velocity" data-toc-modified-id="Power-spectrum-of-turbulent-vertical-velocity-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Power spectrum of turbulent vertical velocity</a></span><ul class="toc-item"><li><span><a href="#Step-1:-plot-the-raw-spectrum-and-confirm-the-W-K-theorem" data-toc-modified-id="Step-1:-plot-the-raw-spectrum-and-confirm-the-W-K-theorem-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Step 1: plot the raw spectrum and confirm the W-K theorem</a></span></li><li><span><a href="#Step-2:-check-power-spectrum-layout" data-toc-modified-id="Step-2:-check-power-spectrum-layout-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Step 2: check power spectrum layout</a></span><ul class="toc-item"><li><span><a href="#Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f" data-toc-modified-id="Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Confirm that the fft at negative f is the complex conjugate of the fft at positive f</a></span></li></ul></li><li><span><a href="#Step-3:-Windowing-and-averaging-subsamples" data-toc-modified-id="Step-3:-Windowing-and-averaging-subsamples-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Step 3: Windowing and averaging subsamples</a></span></li><li><span><a href="#Caveat----subsamples-no-longer-have-zero-mean,-so-power-gets-placed-in-bin-0" data-toc-modified-id="Caveat----subsamples-no-longer-have-zero-mean,-so-power-gets-placed-in-bin-0-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Caveat -- subsamples no longer have zero mean, so power gets placed in bin 0</a></span><ul class="toc-item"><li><span><a href="#Solution----change-the-amplitude-of-the-averaged-spectrum-so-it-matches-the-total-variance-of-the-time-series" data-toc-modified-id="Solution----change-the-amplitude-of-the-averaged-spectrum-so-it-matches-the-total-variance-of-the-time-series-1.4.1"><span class="toc-item-num">1.4.1&nbsp;&nbsp;</span>Solution -- change the amplitude of the averaged spectrum so it matches the total variance of the time series</a></span></li></ul></li><li><span><a href="#Try-running-do_fft-with-and-without-debug-printing" data-toc-modified-id="Try-running-do_fft-with-and-without-debug-printing-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Try running do_fft with and without debug printing</a></span></li><li><span><a href="#We-want-the-integral-over-the-positive-frequencies-to-give-the-total-variance,-so-increase-spectral-values-by-2x" data-toc-modified-id="We-want-the-integral-over-the-positive-frequencies-to-give-the-total-variance,-so-increase-spectral-values-by-2x-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>We want the integral over the positive frequencies to give the total variance, so increase spectral values by 2x</a></span></li><li><span><a href="#Step-4:-fit-the-averaged-spectrum-to-$E(f)-=-A_0-f^{-5/3}$-on-a-loglog-plot" data-toc-modified-id="Step-4:-fit-the-averaged-spectrum-to-$E(f)-=-A_0-f^{-5/3}$-on-a-loglog-plot-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Step 4: fit the averaged spectrum to $E(f) = A_0 f^{-5/3}$ on a loglog plot</a></span></li><li><span><a href="#Step-5:-Use-Kolmogorov-1941-to-find-$\epsilon$" data-toc-modified-id="Step-5:-Use-Kolmogorov-1941-to-find-$\epsilon$-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Step 5: Use Kolmogorov 1941 to find $\epsilon$</a></span><ul class="toc-item"><li><span><a href="#Is-this-ε-a-reasonable-value-for-the-vertical-turbulent-dissipation-rate?" data-toc-modified-id="Is-this-ε-a-reasonable-value-for-the-vertical-turbulent-dissipation-rate?-1.8.1"><span class="toc-item-num">1.8.1&nbsp;&nbsp;</span>Is this ε a reasonable value for the vertical turbulent dissipation rate?</a></span></li></ul></li><li><span><a href="#Does-the-data-support-f^{-5/3}?" data-toc-modified-id="Does-the-data-support-f^{-5/3}?-1.9"><span class="toc-item-num">1.9&nbsp;&nbsp;</span>Does the data support f^{-5/3}?</a></span><ul class="toc-item"><li><span><a href="#Smothing-the-power-spectrum-by-simple-binning" data-toc-modified-id="Smothing-the-power-spectrum-by-simple-binning-1.9.1"><span class="toc-item-num">1.9.1&nbsp;&nbsp;</span>Smothing the power spectrum by simple binning</a></span></li></ul></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Power-spectrum-of-turbulent-vertical-velocity" data-toc-modified-id="Power-spectrum-of-turbulent-vertical-velocity-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Power spectrum of turbulent vertical velocity</a></span><ul class="toc-item"><li><span><a href="#Step-1:-plot-the-raw-spectrum-and-confirm-Parseval's-theorem-(Stull-8.6.2a,-p.-313)" data-toc-modified-id="Step-1:-plot-the-raw-spectrum-and-confirm-Parseval's-theorem-(Stull-8.6.2a,-p.-313)-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Step 1: plot the raw spectrum and confirm Parseval's theorem (Stull 8.6.2a, p. 313)</a></span></li><li><span><a href="#Step-2:-check-power-spectrum-layout" data-toc-modified-id="Step-2:-check-power-spectrum-layout-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Step 2: check power spectrum layout</a></span><ul class="toc-item"><li><span><a href="#Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f" data-toc-modified-id="Confirm-that-the-fft-at-negative-f-is-the-complex-conjugate-of-the-fft-at-positive-f-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Confirm that the fft at negative f is the complex conjugate of the fft at positive f</a></span></li></ul></li><li><span><a href="#Step-3:-Windowing-and-averaging-subsamples" data-toc-modified-id="Step-3:-Windowing-and-averaging-subsamples-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Step 3: Windowing and averaging subsamples</a></span></li><li><span><a href="#Caveat----subsamples-no-longer-have-zero-mean,-so-power-gets-placed-in-bin-0" data-toc-modified-id="Caveat----subsamples-no-longer-have-zero-mean,-so-power-gets-placed-in-bin-0-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Caveat -- subsamples no longer have zero mean, so power gets placed in bin 0</a></span><ul class="toc-item"><li><span><a href="#Solution----change-the-amplitude-of-the-averaged-spectrum-so-it-matches-the-total-variance-of-the-time-series" data-toc-modified-id="Solution----change-the-amplitude-of-the-averaged-spectrum-so-it-matches-the-total-variance-of-the-time-series-1.4.1"><span class="toc-item-num">1.4.1&nbsp;&nbsp;</span>Solution -- change the amplitude of the averaged spectrum so it matches the total variance of the time series</a></span></li></ul></li><li><span><a href="#Try-running-do_fft-with-and-without-debug-printing" data-toc-modified-id="Try-running-do_fft-with-and-without-debug-printing-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Try running do_fft with and without debug printing</a></span></li><li><span><a href="#We-want-the-integral-over-the-positive-frequencies-to-give-the-total-variance,-so-increase-spectral-values-by-2x" data-toc-modified-id="We-want-the-integral-over-the-positive-frequencies-to-give-the-total-variance,-so-increase-spectral-values-by-2x-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>We want the integral over the positive frequencies to give the total variance, so increase spectral values by 2x</a></span></li><li><span><a href="#Step-4:-fit-the-averaged-spectrum-to-$E(f)-=-A_0-f^{-5/3}$-on-a-loglog-plot" data-toc-modified-id="Step-4:-fit-the-averaged-spectrum-to-$E(f)-=-A_0-f^{-5/3}$-on-a-loglog-plot-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Step 4: fit the averaged spectrum to $E(f) = A_0 f^{-5/3}$ on a loglog plot</a></span></li><li><span><a href="#Step-5:-Use-Kolmogorov-1941-to-find-ε" data-toc-modified-id="Step-5:-Use-Kolmogorov-1941-to-find-ε-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Step 5: Use Kolmogorov 1941 to find ε</a></span><ul class="toc-item"><li><span><a href="#Is-this-ε-a-reasonable-value-for-the-vertical-turbulent-dissipation-rate?" data-toc-modified-id="Is-this-ε-a-reasonable-value-for-the-vertical-turbulent-dissipation-rate?-1.8.1"><span class="toc-item-num">1.8.1&nbsp;&nbsp;</span>Is this ε a reasonable value for the vertical turbulent dissipation rate?</a></span></li></ul></li><li><span><a href="#Does-the-data-support-a--5/3-slope?" data-toc-modified-id="Does-the-data-support-a--5/3-slope?-1.9"><span class="toc-item-num">1.9&nbsp;&nbsp;</span>Does the data support a -5/3 slope?</a></span><ul class="toc-item"><li><span><a href="#Smothing-the-power-spectrum-by-simple-binning" data-toc-modified-id="Smothing-the-power-spectrum-by-simple-binning-1.9.1"><span class="toc-item-num">1.9.1&nbsp;&nbsp;</span>Smothing the power spectrum by simple binning</a></span></li></ul></li></ul></li></ul></div>
 
 # %%
 #title here
@@ -66,7 +66,25 @@ print('keys: ',list(td.keys()))
 print(td['description'])
 
 # %% [markdown]
-# ## Step 1: plot the raw spectrum and confirm the W-K theorem
+# ## Step 1: plot the raw spectrum and confirm Parseval's theorem (Stull 8.6.2a, p. 313)
+#
+# See also [Numerical Recipes Chapter 12/13](http://clouds.eos.ubc.ca/~phil/docs/atsc500/pdf_files/numerical_recipes_fft.pdf)
+# (user: green, password: house) page 492, equation 12.0.12 and 12.0.13.  We want to demonstrate that
+#
+#
+# $$
+# \operatorname{Corr}(g, g) \Longleftrightarrow|G(f)|^{2}
+# $$
+#
+# which is called the "Wiener-Khinchin Theorem"
+#
+# and that:
+#
+# $$
+# \text { Total Power } \equiv \int_{-\infty}^{\infty}|h(t)|^{2} d t=\int_{-\infty}^{\infty}|H(f)|^{2} d f
+# $$
+#
+# which is called "Parsevals's theorem"  (see also 12.1.10 for the discrete case)
 
 # %% {"scrolled": false}
 sampleRate=20.833
@@ -92,7 +110,7 @@ frequencies=frequencies*nyquistfreq
 
 thefft=np.fft.fft(wvel)
 power=np.real(thefft*np.conj(thefft))
-print('check Wiener-Khichine theorem for wvel')
+print("Confirm  Parseval's theorem holds for for wvel")
 print('\nraw fft sum, full time series: %10.4f\n' % (np.sum(power)/totsize**2.))
 print('velocity variance: %10.4f\n' % (np.sum(wvel*wvel)/totsize))
 
@@ -249,6 +267,8 @@ def do_fft(the_series,window,ensemble=25,title='title',debug=False):
 
 # %% [markdown]
 # ## Try running do_fft with and without debug printing
+#
+# Check Parseval's theorem for each subsample
 
 # %%
 winspec=do_fft(wvel,window,debug=True)
@@ -321,7 +341,7 @@ print('how good is the fit at point 100? spectrum: {:8.5f}  -5/3: {:8.5f}'.forma
 
 
 # %% [markdown]
-# ## Step 5: Use Kolmogorov 1941 to find $\epsilon$
+# ## Step 5: Use Kolmogorov 1941 to find ε
 #
 # According to [McBean and Elliot (1975)](http://ezproxy.library.ubc.ca/login?url=http://journals.ametsoc.org/doi/abs/10.1175/1520-0469%281975%29032%3C0753%3ATVTOKE%3E2.0.CO%3B2) or Stull page 431, we want to solve this equation:
 #
@@ -365,12 +385,12 @@ print('how good is the fit at point 100? spectrum: {:8.5f}  -5/3: {:8.5f}'.forma
 # ### Is this ε a reasonable value for the vertical turbulent dissipation rate?
 
 # %% [markdown]
-# 1. Suppose the turbulence is isotropic, so the u and v components have the same $\epsilon$.  Then the total     dissipation rate is $1.5 \times 10^{-3}\ m^2 s^{-3}$.  If the total variance in the windfiled was $3\ m^2\,s^{-2}$, then that would imply that the atmosphere would "spin down" in 3/1.5e-3 = 2000 seconds = 33 minutes.
+# 1. Suppose the turbulence is isotropic, so the u and v components have the same ε.  Then the total     dissipation rate is $1.5 \times 10^{-3}\,m^2 s^{-3}$.  If the total variance in the windfiled was $3\ m^2\,s^{-2}$, then that would imply that the atmosphere would "spin down" in 3/1.5e-3 = 2000 seconds = 33 minutes.
 #
 # 2. Also check out Figure 10 of [Campistron et al., 2002](http://dx.doi.org/10.1023/A%3A1014985111855)
 
 # %% [markdown]
-# ## Does the data support f^{-5/3}?
+# ## Does the data support a -5/3 slope?
 #
 # Try fitting again, but this time let the slope be a free parameter.  Do we get -5/3?
 

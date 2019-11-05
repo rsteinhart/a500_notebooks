@@ -104,10 +104,10 @@ out=fig.colorbar(im0,orientation='horizontal',cax=cax)
 # %% [markdown]
 # In the next cell I define a class that calculates the 2-d fft for a square image
 #
-# in the method ```power_spectrum``` we calculate both the 2d fft and the power spectrum
-# and save them as class attributes.  In the method ```annular_average``` I take the power spectrum,
+# We also define two free functions: `power_spectrum` we calculate both the 2d fft and the power spectrum
+# and save them as class attributes.  In the function `annular_average` I take the power spectrum,
 # which is the two-dimensional field  $E(k_x, k_y)$ (in cartesian coordinates) or $E(k,\theta)$ (in polar coordinates).
-# In the method ```annular_avg``` I take the average
+# In the function `annular_avg` I take the average
 #
 # $$
 # \overline{E}(k) = \int_0^{2\pi} E(k, \theta) d\theta
@@ -276,7 +276,7 @@ def graph_spectrum(ax,knum, avg_spec, kol_slope=-5./3., kol_offset=1.):
     kol = kol_offset*(knum**kol_slope)
     ax.loglog(knum,avg_spec,'r-',label='power')
     ax.loglog(knum,kol,'k-',label="$k^{-5/3}$")
-    #pdb.set_trace()
+    ax.set(xlabel='k (1/km)',ylabel='$E_k$')
     return ax
 
 
@@ -364,7 +364,9 @@ out=fig.colorbar(im1,orientation='horizontal',cax=cax)
 # %% [markdown]
 # ## Now do this right
 #
-# Make the filter circular to get the correct wavenumbers 
+# Make the filter circular to get the correct wavenumbers.  Note that you'll have to look
+# hard in the corners to see the wavenumbers leftover from this filter if you set
+# the index to 25 or lower.
 
 # %%
 @jit(nopython=True) 
@@ -392,9 +394,11 @@ def build_filter(the_array,low_pass_index):
                 filter_array[row,col] = 0.
     return filter_array
 
-the_filter = build_filter(plot_fft,4)
 
 # %%
+the_filter = build_filter(plot_fft,50)
+
+# %% {"scrolled": true}
 filtered_fft = fft2d*the_filter
 plot_fft = np.real(filtered_fft*np.conjugate(filtered_fft))
 fig2,ax2=plt.subplots(1,2,figsize=(12,12))
@@ -413,8 +417,14 @@ cax = divider.append_axes("bottom", size="5%", pad=0.35)
 out=fig.colorbar(im1,orientation='horizontal',cax=cax)
 
 # %%
-spectral_dens = filtered_fft*np.conjugate(filtered_fft)/(the_fft.xdim*2.)
-the_ax=graph_spectrum(spectral_dens,avg_binwidth,kol_offset=2000.,
-                      title='Landsat {} power spectrum'.format(the_fft.filename))
+fft_shift = fft.fftshift(filtered_fft)
+new_spectral_dens = fft_shift*np.conjugate(fft_shift)/(the_fft.xdim*the_fft.xdim)
+new_spectral_dens = new_spectral_dens.real  
+k_bins, avg_spec = annular_avg(new_spectral_dens,avg_binwidth)
+
+# %%
+fig,ax=plt.subplots(1,1,figsize=(8,8))
+the_ax=graph_spectrum(ax, knum, avg_spec,kol_slope= -5/3.,kol_offset=2000.)
+the_ax.set_title=f'Landsat {the_fft.filename} power spectrum'
 
 # %%
