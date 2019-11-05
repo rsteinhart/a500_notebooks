@@ -43,7 +43,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span><ul class="toc-item"><li><span><a href="#Call-the-function-to-calculate-the-power-spectrum" data-toc-modified-id="Call-the-function-to-calculate-the-power-spectrum-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Call the function to calculate the power spectrum</a></span></li></ul></li><li><span><a href="#Designing-a-filter" data-toc-modified-id="Designing-a-filter-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Designing a filter</a></span></li><li><span><a href="#First-step" data-toc-modified-id="First-step-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>First step</a></span></li><li><span><a href="#Now-do-this-right" data-toc-modified-id="Now-do-this-right-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Now do this right</a></span></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#2D-histogram-of-the-optical-depth-$\tau$" data-toc-modified-id="2D-histogram-of-the-optical-depth-$\tau$-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>2D histogram of the optical depth $\tau$</a></span><ul class="toc-item"><li><span><a href="#Character-of-the-optical-depth-field" data-toc-modified-id="Character-of-the-optical-depth-field-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Character of the optical depth field</a></span></li><li><span><a href="#ubc_fft-class" data-toc-modified-id="ubc_fft-class-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>ubc_fft class</a></span><ul class="toc-item"><li><span><a href="#Call-the-function-to-calculate-the-power-spectrum" data-toc-modified-id="Call-the-function-to-calculate-the-power-spectrum-1.2.1"><span class="toc-item-num">1.2.1&nbsp;&nbsp;</span>Call the function to calculate the power spectrum</a></span></li></ul></li><li><span><a href="#Designing-a-filter" data-toc-modified-id="Designing-a-filter-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Designing a filter</a></span><ul class="toc-item"><li><span><a href="#Try-a-simple-round-trip-with-no-filter----do-we-get-the-image-back?" data-toc-modified-id="Try-a-simple-round-trip-with-no-filter----do-we-get-the-image-back?-1.3.1"><span class="toc-item-num">1.3.1&nbsp;&nbsp;</span>Try a simple round trip with no filter -- do we get the image back?</a></span></li></ul></li><li><span><a href="#First-step" data-toc-modified-id="First-step-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>First step</a></span></li><li><span><a href="#Now-do-this-right" data-toc-modified-id="Now-do-this-right-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Now do this right</a></span></li></ul></li></ul></div>
 
 # %% [markdown] {"collapsed": true}
 # # 2D histogram of the optical depth $\tau$
@@ -283,6 +283,8 @@ def graph_spectrum(ax,knum, avg_spec, kol_slope=-5./3., kol_offset=1.):
 # %%
 avg_binwidth=5  #make the kradial bins 5 pixels wide
 k_bins, avg_spec = annular_avg(spectral_dens,avg_binwidth)
+
+# %%
 #
 # turn the bin numbers into wave numbers for the positive wavenumbs
 #
@@ -292,7 +294,7 @@ fig,ax=plt.subplots(1,1,figsize=(8,8))
 the_ax=graph_spectrum(ax, knum, avg_spec,kol_slope= -5/3.,kol_offset=2000.)
 title=f'Landsat {the_fft.filename} power spectrum'
 ax.set(title=title,xlabel='k (1/km)',ylabel='$E_k$')
-ax.legend()
+ax.legend();
 
 # %% [markdown] {"trusted": true}
 # ## Designing a filter
@@ -304,8 +306,11 @@ ax.legend()
 # of our sample?  We have 2048 bins in each direction, so each bin represents 40/2048 = 0.0195 $km^{-1}$.  Suppose we want to
 # filter out all wavenumbers greater than 1/(2 km) = 0.5 $km^{-1}$?  The bin we need to use in our slice is bin 0.5/0.0195 = index 25 
 
+# %% [markdown]
+# ### Try a simple round trip with no filter -- do we get the image back?
+
 # %%
-fft2d = fft.fft2(the_fft.data)
+fft2d = the_fft.fft_data
 plot_fft = np.real(fft2d*np.conjugate(fft2d))
 fig,ax=plt.subplots(1,2,figsize=(12,12))
 ax[0].set_title('landsat a17 -- fft')
