@@ -396,7 +396,7 @@ def build_filter(the_array,low_pass_index):
 
 
 # %%
-the_filter = build_filter(plot_fft,50)
+the_filter = build_filter(plot_fft,25)
 
 # %% {"scrolled": true}
 filtered_fft = fft2d*the_filter
