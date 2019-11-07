@@ -103,10 +103,9 @@ import context
 # We create those folders in the cell below
 
 # %% {"scrolled": true}
-processed_dir = context_pandas1.data_dir / "processed"
-raw_dir = context_pandas1.data_dir / "raw"
-processed_dir.mkdir(parents=True, exist_ok=True)
-raw_dir.mkdir(parents=True, exist_ok=True)
+processed_dir =  Path("data/processed")
+raw_dir = Path("data/raw")
+#print(list(raw_dir.glob("*")))
 # %% [markdown]
 # ## Pandas dataframes vs. numpy arrays
 #
@@ -167,6 +166,7 @@ weather_file = Path("data/weather_YVR.csv")  #subfolder
 
 # %%
 weather = pandas.read_csv(weather_file)
+#dir(weather)
 
 # %% [markdown] {"slideshow": {"slide_type": "skip"}}
 # > Pro Tips!
@@ -174,7 +174,7 @@ weather = pandas.read_csv(weather_file)
 # - Auto-complete even works for file paths inside a string!
 
 # %%
-weather
+weather.head()
 
 # %% [markdown]
 # - Only the first 30 and last 30 rows are displayed (but the data is all there in our `weather` variable)
@@ -201,7 +201,7 @@ weather
 # For large DataFrames, it's often useful to display just the first few or last few rows:
 
 # %%
-weather.head()
+weather.
 
 # %% [markdown] {"slideshow": {"slide_type": "fragment"}}
 # The `head` method returns a new DataFrame consisting of the first `n` rows (default 5)
@@ -215,7 +215,7 @@ weather.head()
 # First two rows:
 
 # %%
-weather.head(2)
+weather.iloc[100,2]
 
 # %%
 # Last four rows:

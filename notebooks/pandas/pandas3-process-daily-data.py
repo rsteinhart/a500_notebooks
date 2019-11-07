@@ -16,7 +16,7 @@
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Test-Calcs-(Single-Year)" data-toc-modified-id="Test-Calcs-(Single-Year)-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Test Calcs (Single Year)</a></span></li><li><span><a href="#Process-All-Years" data-toc-modified-id="Process-All-Years-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Process All Years</a></span></li><li><span><a href="#Create-a-subset-of-the-data" data-toc-modified-id="Create-a-subset-of-the-data-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Create a subset of the data</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Process-Daily-Data" data-toc-modified-id="Process-Daily-Data-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Process Daily Data</a></span><ul class="toc-item"><li><span><a href="#Test-Calcs-(Single-Year)" data-toc-modified-id="Test-Calcs-(Single-Year)-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Test Calcs (Single Year)</a></span></li><li><span><a href="#Process-All-Years" data-toc-modified-id="Process-All-Years-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Process All Years</a></span></li><li><span><a href="#Create-a-subset-of-the-data" data-toc-modified-id="Create-a-subset-of-the-data-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Create a subset of the data</a></span></li></ul></li></ul></div>
 # %% [markdown]
 # # Process Daily Data
 #
