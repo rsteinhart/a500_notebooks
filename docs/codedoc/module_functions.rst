@@ -41,14 +41,14 @@ ncdump Contents
    ncdump                 
 
    
-killjobs Contents
+killprocs Contents
 =================
 
-.. currentmodule:: a500.utils.killjobs
+.. currentmodule:: a500.utils.killprocs
 
-.. autosummary:: a500.utils.killjobs
+.. autosummary:: a500.utils.killprocs
 
-   killjobs
+   killprocs
    
 
 

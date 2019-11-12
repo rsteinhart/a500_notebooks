@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import context
 import sphinx_bootstrap_theme
 print('do i see this')
 #
@@ -38,7 +39,8 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinxcontrib.fulltoc',
     'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.autosummary'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -119,8 +121,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #html_theme = 'alabaster'
-import phil_bootstrap_theme
-html_theme_path = phil_bootstrap_theme.get_html_theme_path()
+html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 print(html_theme_path)
 html_theme = 'bootstrap'
 
@@ -134,7 +135,7 @@ html_theme = 'bootstrap'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'A405'
+html_title = 'A500'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 html_short_title = 'Home'

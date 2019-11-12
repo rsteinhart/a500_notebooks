@@ -30,10 +30,10 @@ ncdump full module
    :members:             
 
 
-killjobs full module
+killprocs full module
 ====================
 
-.. automodule:: a500.utils.killjobs
+.. automodule:: a500.utils.killprocs
    :members:             
 
 
@@ -57,18 +57,7 @@ thermlib full module
 .. automodule:: a500.thermo.thermlib
    :members:             
 
-skewlib full module
-===================
 
-.. automodule:: a500.skewT.skewlib
-   :members:             
-
-fullskew module
-===============
-
-.. automodule:: a500.skewT.fullskew
-   :members:             
-      
       
 
 wyominglib full module

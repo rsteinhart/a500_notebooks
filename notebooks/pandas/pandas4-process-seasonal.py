@@ -259,6 +259,7 @@ yvr_df.head()
 
 # %%
 seasons = yvr_df.groupby("season")
+#dir(seasons)
 
 # %% [markdown]
 # ### Use a dictionary comprehension put the dataframes into a dictionary

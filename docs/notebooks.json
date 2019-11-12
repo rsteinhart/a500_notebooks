@@ -25,4 +25,10 @@
         "cabauw_fit",
         "businger_dyer"
     ]
+    "week 9": [
+        "cabauw_fit",
+        "fftnotebook",
+        "fft_dissipation",
+        "fft_2d"
+    ]
 }
