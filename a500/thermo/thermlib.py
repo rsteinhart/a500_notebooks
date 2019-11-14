@@ -11,6 +11,8 @@ from .constants import constants as c
 from . import rootfinder as rf
 import numpy.testing as ntest
 from .rootfinder import BracketError
+from .constants import constants as c
+
 
 def find_lv(temp):
     """
@@ -118,7 +120,7 @@ def find_resid_rsat(Tguess, rsat, press):
    see thompkins 2.20
      
     """
-    esat = find_esat(Tguess) * 0.01  #convert to hPa
+    esat = find_esat(Tguess) * 0.01  # convert to hPa
     residual = rsat - c.eps * esat / (press - esat)
     return residual
 
@@ -155,7 +157,7 @@ def tinvert_rsat(Tstart, rsat, press):
     Parameters
     ----------
 
-    Tstart : float
+    temp : float
            temperature (K)
 
     rsat : float
@@ -221,8 +223,8 @@ def find_theta(temp, press, rv=0):
     
     """
 
-    power = c.Rd / c.cpd * (1. - 0.24 * rv)
-    thetaOut = temp * (c.p0 / press)**power
+    power = c.Rd / c.cpd * (1.0 - 0.24 * rv)
+    thetaOut = temp * (c.p0 / press) ** power
     return thetaOut
 
 
@@ -330,12 +332,12 @@ def find_thetaes(Temp, press):
     #
     # peg this at 450 so rootfinder won't blow up
     #
-    if thetaep > 450.:
+    if thetaep > 450.0:
         thetaep = 450
     return thetaep
 
 
-def find_Tv(temp, rvap, rl=0.):
+def find_Tv(temp, rvap, rl=0.0):
     """
     Calculate the density (virtual) temperature
 
@@ -415,11 +417,11 @@ def find_thetaet(Td, rt, T, p):
     342.52792353970784
     """
     if Td < T:
-        #parcel is unsaturated
+        # parcel is unsaturated
         [Tlcl, plcl] = find_lcl(Td, T, p)
         rv = find_rsat(Td, p)
     else:
-        #parcel is saturated -- prohibit supersaturation with Td > T
+        # parcel is saturated -- prohibit supersaturation with Td > T
         Td = T
         rv = find_rsat(T, p)
     e = find_esat(Td)
@@ -429,11 +431,10 @@ def find_thetaet(Td, rt, T, p):
     # turn off water vapor if not in liquid water saturation
     # domain
     #
-    if np.isinf(vapor_term) or (e > 1.e5) or (esat > 1.e5) \
-       or (e < 1) or (esat < 1):
+    if np.isinf(vapor_term) or (e > 1.0e5) or (esat > 1.0e5) or (e < 1) or (esat < 1):
         vapor_term = 0
         e = 0
-    #print('thetaet: ',e,esat,T,Td,p,vapor_term)
+    # print('thetaet: ',e,esat,T,Td,p,vapor_term)
     pd = p - e  # dry
     cp = c.cpd + rt * c.cl
     lv = find_lv(T)
@@ -443,10 +444,10 @@ def find_thetaet(Td, rt, T, p):
     #
     # peg this at 450 so rootfinder won't blow up
     #
-    if (thetaet > 450.):
+    if thetaet > 450.0:
         thetaet = 450
-    if (thetaet < 100.):
-        thetaet = 100.
+    if thetaet < 100.0:
+        thetaet = 100.0
     return thetaet
 
 
@@ -509,22 +510,21 @@ def find_thetaep(Td, T, p):
 
     """
     if Td < T:
-        #parcel is unsaturated
+        # parcel is unsaturated
         [Tlcl, plcl] = find_lcl(Td, T, p)
         rv = find_rsat(Td, p)
     else:
-        #parcel is saturated -- prohibit supersaturation with Td > T
+        # parcel is saturated -- prohibit supersaturation with Td > T
         Tlcl = T
         rv = find_rsat(T, p)
 
     thetaval = find_theta(T, p, rv)
-    thetaepOut = thetaval * np.exp(rv * (1 + 0.81 * rv) \
-                                   * (3376. / Tlcl - 2.54))
+    thetaepOut = thetaval * np.exp(rv * (1 + 0.81 * rv) * (3376.0 / Tlcl - 2.54))
     #
     # peg this at 450 so rootfinder won't blow up
     #
 
-    if (thetaepOut > 450.):
+    if thetaepOut > 450.0:
         thetaepOut = 450
 
     return thetaepOut
@@ -580,18 +580,17 @@ def find_lcl(Td, T, p):
     """
     hit = Td >= T
     if hit is True:
-        raise NameError('parcel is saturated at this pressure')
+        raise NameError("parcel is saturated at this pressure")
 
     e = find_esat(Td)
     ehPa = e * 0.01
-    #Bolton's formula requires hPa.
+    # Bolton's formula requires hPa.
     # This is is an empircal fit from for LCL temp from Bolton, 1980 MWR.
-    Tlcl = (2840. / (3.5 * np.log(T) - np.log(ehPa) - 4.805)) + 55.
+    Tlcl = (2840.0 / (3.5 * np.log(T) - np.log(ehPa) - 4.805)) + 55.0
 
     r = c.eps * e / (p - e)
     cp = c.cpd + r * c.cpv
-    logplcl = np.log(p) + cp / (c.Rd * (1 + r / c.eps)) * \
-              np.log(Tlcl / T)
+    logplcl = np.log(p) + cp / (c.Rd * (1 + r / c.eps)) * np.log(Tlcl / T)
     plcl = np.exp(logplcl)
 
     return Tlcl, plcl
@@ -635,16 +634,16 @@ def find_rvrl(Temp, rT, press):
 
     """
     rsVal = find_rsat(Temp, press)
-    if rsVal > rT:  #unsaturated
+    if rsVal > rT:  # unsaturated
         rv = rT
         rl = 0
-    else:  #saturated
+    else:  # saturated
         rv = rsVal
         rl = rT - rv
     return rv, rl
 
 
-def find_Tmoist(thetaE0, press, use_theta=False):
+def find_Tmoist(thetaE0, press):
     """
     Calculates the temperatures along a moist adiabat.
     
@@ -669,13 +668,9 @@ def find_Tmoist(thetaE0, press, use_theta=False):
     283.7226584032411
     """
     Tstart = c.Tc
-    if use_theta and press < 150.e2:
-        diff_fun = theta_diff
-    else:
-        diff_fun = thetaes_diff
     try:
-        brackets = rf.find_interval(diff_fun, Tstart, thetaE0, press)
-        Temp = rf.fzero(diff_fun, brackets, thetaE0, press)
+        brackets = rf.find_interval(thetaes_diff, Tstart, thetaE0, press)
+        Temp = rf.fzero(thetaes_diff, brackets, thetaE0, press)
     except BracketError as e:
         print("couldn't find bracket: debug info: ", e.extra_info)
         Temp = np.nan
@@ -705,34 +700,8 @@ def thetaes_diff(Tguess, thetaE0, press):
     """
     thetaes_guess = find_thetaes(Tguess, press)
 
-    #when this result is small enough we're done
+    # when this result is small enough we're done
     the_diff = thetaes_guess - thetaE0
-    return the_diff
-
-
-def theta_diff(Tguess, theta0, press):
-    """
-    use  theta for rootfinder
-
-    Parameters
-    ----------
-    Tguess : float
-        Trial temperature value (K).
-    press : float
-        Pressure (Pa).
-
-    Returns
-    -------
-    theDiff : float
-        The difference between the values of 'thetaEguess' and
-        'thetaE0'. This difference is then compared to the tolerance
-        allowed by brenth.
-        
-    """
-    theta_guess = find_theta(Tguess, press)
-
-    #when this result is small enough we're done
-    the_diff = theta_guess - theta0
     return the_diff
 
 
@@ -759,7 +728,7 @@ def thetaep_diff(Tguess, thetaE0, press):
     """
     thetaes_guess = find_thetaep(Tguess, Tguess, press)
 
-    #when this result is small enough we're done
+    # when this result is small enough we're done
     the_diff = thetaes_guess - thetaE0
     return the_diff
 
@@ -802,13 +771,12 @@ def tinvert_thetae(thetaeVal, rT, press):
     >>> tinvert_thetae(300., 0.001, 8.e4)
     (278.683729619619, 0.001, 0)
     """
-    if press > 1.e5:
-        raise IOError('expecting pressure level less than 100000 Pa')
+    if press > 1.0e5:
+        raise IOError("expecting pressure level less than 100000 Pa")
     # The temperature has to be somewhere between thetae
     # (T at surface) and -40 deg. C (no ice).
     Tstart = c.Tc
-    brackets = rf.find_interval(find_resid_thetae, Tstart, thetaeVal, rT,
-                                press)
+    brackets = rf.find_interval(find_resid_thetae, Tstart, thetaeVal, rT, press)
     theTemp = rf.fzero(find_resid_thetae, brackets, thetaeVal, rT, press)
     rv, rl = find_rvrl(theTemp, rT, press)
     return theTemp, rv, rl
@@ -920,7 +888,7 @@ def find_thetal(press, temp, rt):
     if saturated:
         rl = rt - rsat
     else:
-        rl = 0.
+        rl = 0.0
     lv = find_lv(temp)
     theta = find_theta(temp, press)
     thetal = theta * np.exp(-lv * rl / (c.cpd * temp))
@@ -958,7 +926,7 @@ def find_Td(rv, press):
     
     """
     e = rv * press / (c.eps + rv)
-    denom = (17.67 / np.log(e / 611.2)) - 1.
+    denom = (17.67 / np.log(e / 611.2)) - 1.0
     Td = 243.5 / denom
     Td = Td + 273.15
     return Td
@@ -968,24 +936,22 @@ def test_therm():
     """
    execute unit tests for thermlib
    """
-    Tlcl, plcl = find_lcl(280., 300., 8.e4)
+    Tlcl, plcl = find_lcl(280.0, 300.0, 8.0e4)
     ntest.assert_almost_equal(Tlcl, 275.7625, decimal=3)
     ntest.assert_almost_equal(plcl, 59518.928, decimal=2)
     ntest.assert_almost_equal(
-        find_thetaep(280., 300., 8.e4),
-        344.998307,
-        decimal=5)  # Parcel is unsaturated.
+        find_thetaep(280.0, 300.0, 8.0e4), 344.998307, decimal=5
+    )  # Parcel is unsaturated.
     ntest.assert_almost_equal(
-        find_thetaep(300., 280., 8.e4),
-        321.53029,
-        decimal=5)  # Parcel is saturated.
-    ntest.assert_almost_equal(find_esat(300.), 3534.51966, decimal=2)
-    ntest.assert_almost_equal(find_thetaes(300., 8.e4), 399.53931, decimal=4)
-    ntest.assert_allclose(find_esat([300., 310.]), [3534.51966, 6235.53218])
-    ntest.assert_almost_equal(find_Tmoist(300., 8.e4), 271.063785, decimal=4)
-    ntest.assert_almost_equal(find_Tmoist(330., 8.e4), 283.722658, decimal=4)
-    ntest.assert_almost_equal(find_Tv(300., 1.e-2), 301.866, decimal=3)
-    ntest.assert_almost_equal(find_Tv(280., 1.e-2, 1.e-3), 281.4616, decimal=3)
+        find_thetaep(300.0, 280.0, 8.0e4), 321.53029, decimal=5
+    )  # Parcel is saturated.
+    ntest.assert_almost_equal(find_esat(300.0), 3534.51966, decimal=2)
+    ntest.assert_almost_equal(find_thetaes(300.0, 8.0e4), 399.53931, decimal=4)
+    ntest.assert_allclose(find_esat([300.0, 310.0]), [3534.51966, 6235.53218])
+    ntest.assert_almost_equal(find_Tmoist(300.0, 8.0e4), 271.063785, decimal=4)
+    ntest.assert_almost_equal(find_Tmoist(330.0, 8.0e4), 283.722658, decimal=4)
+    ntest.assert_almost_equal(find_Tv(300.0, 1.0e-2), 301.866, decimal=3)
+    ntest.assert_almost_equal(find_Tv(280.0, 1.0e-2, 1.0e-3), 281.4616, decimal=3)
 
 
 if __name__ == "__main__":

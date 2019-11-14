@@ -3,7 +3,7 @@ jupyter:
   jupytext:
     cell_metadata_filter: -all
     formats: ipynb,md
-    notebook_metadata_filter: all,-language_info
+    notebook_metadata_filter: all,-language_info,-toc,-latex_envs
     text_representation:
       extension: .md
       format_name: markdown
