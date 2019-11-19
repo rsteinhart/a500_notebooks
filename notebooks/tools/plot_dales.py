@@ -73,6 +73,10 @@ for the_file in listFD(url, ext):
 
 
 # %%
+import time
+time.sleep(5)
+
+# %%
 file_dict
 
 # %%

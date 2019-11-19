@@ -36,9 +36,28 @@
 When I make changes on upstream master, you can incorporate those changes to your fork like this:
 
      git fetch upstream
-     git checkout your_initials
+     git checkout master
      git rebase upstream/master
+     git push origin master
+
+I recommend you always keep your own master identical with mine, and make changes to
+a working branch. Once you've rebased origin master on upstream amster, you can  move
+those changes to your branch like this:
+
+     git checkout your_initials
+     git rebase master
      git push origin your_initials
+
+You can associate make your branches "tracking branches"  so that you
+push does what you want by default
+
+     git branch --set-upstream-to origin your_initials
+
+after this then the push sequence from your branch would be:
+
+     git checkout your_initials
+     git rebase master
+     git push
 
 When you have changes you want me to see
 
