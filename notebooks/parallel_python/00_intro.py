@@ -12,38 +12,11 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   latex_envs:
-#     LaTeX_envs_menu_present: true
-#     autoclose: false
-#     autocomplete: true
-#     bibliofile: biblio.bib
-#     cite_by: apalike
-#     current_citInitial: 1
-#     eqLabelWithNumbers: true
-#     eqNumInitial: 1
-#     hotkeys:
-#       equation: meta-9
-#     labels_anchors: false
-#     latex_user_defs: false
-#     report_style_numbering: false
-#     user_envs_cfg: false
-#   toc:
-#     base_numbering: 1
-#     nav_menu: {}
-#     number_sections: true
-#     sideBar: true
-#     skip_h1_title: false
-#     title_cell: Table of Contents
-#     title_sidebar: Contents
-#     toc_cell: true
-#     toc_position: {}
-#     toc_section_display: true
-#     toc_window_display: true
 # ---
 
 # %% [markdown] {"slideshow": {"slide_type": "slide"}, "toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#00---Introduction" data-toc-modified-id="00---Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>00 - Introduction</a></span><ul class="toc-item"><li><span><a href="#First-steps" data-toc-modified-id="First-steps-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>First steps</a></span><ul class="toc-item"><li><span><a href="#Installing-python" data-toc-modified-id="Installing-python-1.1.1"><span class="toc-item-num">1.1.1&nbsp;&nbsp;</span>Installing python</a></span></li><li><span><a href="#Installing-extra-dependencies" data-toc-modified-id="Installing-extra-dependencies-1.1.2"><span class="toc-item-num">1.1.2&nbsp;&nbsp;</span>Installing extra dependencies</a></span></li></ul></li><li><span><a href="#Course-objectives" data-toc-modified-id="Course-objectives-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Course objectives</a></span></li><li><span><a href="#Motivation-(editorial)" data-toc-modified-id="Motivation-(editorial)-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Motivation (editorial)</a></span><ul class="toc-item"><li><span><a href="#Concurrency-vs.-parallelism" data-toc-modified-id="Concurrency-vs.-parallelism-1.3.1"><span class="toc-item-num">1.3.1&nbsp;&nbsp;</span>Concurrency vs. parallelism</a></span></li><li><span><a href="#Threads-and-processes" data-toc-modified-id="Threads-and-processes-1.3.2"><span class="toc-item-num">1.3.2&nbsp;&nbsp;</span>Threads and processes</a></span></li><li><span><a href="#Thread-scheduling" data-toc-modified-id="Thread-scheduling-1.3.3"><span class="toc-item-num">1.3.3&nbsp;&nbsp;</span>Thread scheduling</a></span></li><li><span><a href="#Releasing-the-GIL" data-toc-modified-id="Releasing-the-GIL-1.3.4"><span class="toc-item-num">1.3.4&nbsp;&nbsp;</span>Releasing the GIL</a></span></li></ul></li></ul></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#00---Introduction" data-toc-modified-id="00---Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>00 - Introduction</a></span><ul class="toc-item"><li><ul class="toc-item"><li><span><a href="#Concurrency-vs.-parallelism" data-toc-modified-id="Concurrency-vs.-parallelism-1.0.1"><span class="toc-item-num">1.0.1&nbsp;&nbsp;</span>Concurrency vs. parallelism</a></span></li><li><span><a href="#Threads-and-processes" data-toc-modified-id="Threads-and-processes-1.0.2"><span class="toc-item-num">1.0.2&nbsp;&nbsp;</span>Threads and processes</a></span></li><li><span><a href="#Thread-scheduling" data-toc-modified-id="Thread-scheduling-1.0.3"><span class="toc-item-num">1.0.3&nbsp;&nbsp;</span>Thread scheduling</a></span></li><li><span><a href="#Releasing-the-GIL" data-toc-modified-id="Releasing-the-GIL-1.0.4"><span class="toc-item-num">1.0.4&nbsp;&nbsp;</span>Releasing the GIL</a></span></li></ul></li></ul></li></ul></div>
 
 # %%
 from IPython.display import Image
@@ -52,6 +25,7 @@ from IPython.display import Image
 # # 00 - Introduction
 
 # %% [markdown] {"slideshow": {"slide_type": "slide"}}
+#
 # %% [markdown]
 # ### Concurrency vs. parallelism
 #

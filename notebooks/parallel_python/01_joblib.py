@@ -114,7 +114,7 @@ def find_ids():
 njobs = 12
 nprocs = 3
 thread_id_jobs = [(find_ids, [], {}) for i in range(nprocs)]
-nloops = 1250
+nloops = 5250
 calc_jobs = [(wait_loop_nogil, [nloops], {}) for i in range(njobs)]
 print(calc_jobs)
 
