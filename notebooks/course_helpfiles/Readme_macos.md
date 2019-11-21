@@ -30,7 +30,7 @@ function con()
     condap
 }
 ```
-#activate the work environment
+# activate the work environment
 
 `con work`
 
