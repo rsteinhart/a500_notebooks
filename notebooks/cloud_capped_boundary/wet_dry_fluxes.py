@@ -46,7 +46,9 @@
 # <div class="toc"><ul class="toc-item"><li><span><a href="#buoyancy-flux-in-a-cloudy-boundary-layer" data-toc-modified-id="buoyancy-flux-in-a-cloudy-boundary-layer-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>buoyancy flux in a cloudy boundary layer</a></span></li></ul></div>
 
 # %% {"scrolled": true}
+print("start")
 import context
+
 from pathlib import Path
 import sys
 import a500

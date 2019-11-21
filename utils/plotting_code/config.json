@@ -1,0 +1,8 @@
+{
+    "contents": "namelist is a list of globbalble file names",
+    "namelist": [
+        "BOMEX*zarr"
+    ],
+    "plotname": "rainplot.png",
+    "config_version": "1.0"
+}
