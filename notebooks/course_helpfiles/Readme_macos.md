@@ -3,7 +3,7 @@
 put this into your ~/.bash_profile to get aprompt that shows
 your git branch and conda environment
 
-
+```
 parse_git_branch () {
 
     while read -r branch; do
@@ -29,7 +29,10 @@ function con()
     conda activate $1
     condap
 }
-
+```
 #activate the work environment
-con work
+
+`con work`
+
+
 
