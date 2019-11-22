@@ -10,7 +10,6 @@ context.data_dir
 
 """
 import sys
-import site
 from pathlib import Path
 
 path = Path(__file__).resolve()  # this file
@@ -21,10 +20,12 @@ data_dir = root_dir / Path("data")
 test_dir = root_dir / Path("test_data")
 map_dir = root_dir / Path("map_data")
 
-site.addsitedir(root_dir)
+sys.path.insert(0, str(root_dir))
 sep = "*" * 30
-print(f"{sep}\ncontext imported. Front of path:\n{sys.path[0]}\n"
-      f"back of path: {sys.path[-1]}\n{sep}\n")
+print(
+    f"{sep}\ncontext imported. Front of path:\n{sys.path[0]}\n"
+    f"back of path: {sys.path[-1]}\n{sep}\n"
+)
 
 
 print(f"through {__file__} -- pha")

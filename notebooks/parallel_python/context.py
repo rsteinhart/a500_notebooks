@@ -17,4 +17,3 @@ data_dir = this_dir.parent / 'data'
 sys.path.insert(0, str(this_dir))
 sep = "*" * 30
 print(f"{sep}\ncontext imported. Front of path:\n{sys.path[0]}\n{sys.path[1]}\n{sep}\n")
-

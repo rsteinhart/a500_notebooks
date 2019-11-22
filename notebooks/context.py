@@ -21,7 +21,7 @@ data_dir = root_dir / Path("data")
 test_dir = root_dir / Path("test_data")
 map_dir = root_dir / Path("map_data")
 
-sys.path.insert(0, root_dir)
+sys.path.insert(0, str(root_dir))
 sep = "*" * 30
 print(f"{sep}\ncontext imported. Front of path:\n{sys.path[0]}\n{sys.path[1]}\n{sep}\n")
 
