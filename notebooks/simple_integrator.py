@@ -93,4 +93,7 @@ def dthdt(theta, t, zf, zh, l, Fth0):
  for item in the_prof:
      ax.plot(item,zh)
  plt.show()
+the_prof.shape
 
+
+# %%

@@ -84,7 +84,7 @@ def make_prof(df_out,gamma):
     return xvals,yvals
 
 
-# %% {"scrolled": false}
+# %% {"scrolled": true}
 plt.show()
 dtout=30.  #minutes
 tf=48   #hours

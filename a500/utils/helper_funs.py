@@ -22,7 +22,7 @@ def test_scalar(*args):
         isscalar = isscalar & np.isscalar(item)
     return isscalar
 
-    
+
 def make_tuple(in_dict,tupname='values'):
     """
     make a named tuple from a dictionary
